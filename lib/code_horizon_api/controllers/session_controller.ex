@@ -1,0 +1,38 @@
+defmodule CodeHorizonApi.SessionController do
+  use CodeHorizonWeb, :controller
+  use OpenApiSpex.ControllerSpecs
+
+  alias OpenApiSpex.Reference
+  alias CodeHorizon.Accounts
+  alias CodeHorizon.Accounts.User
+  alias CodeHorizonApi.Schemas
+
+  action_fallback CodeHorizonWeb.FallbackController
+
+  tags ["session"]
+
+  operation :create,
+    summary: "Authenticate user",
+    description: "Authenticate user and generate bearer token",
+    request_body: {"User credentials", "application/json", Schemas.UserCredentials},
+    responses: [
+      ok: {"Authenticated response", "application/json", Schemas.AuthResponse},
+      unauthorized: %Reference{"$ref": "#/components/responses/unauthorised"}
+    ]
+
+  def create(_conn, %{"email" => nil}) do
+    {:error, :unauthorized}
+  end
+
+  def create(conn, %{"email" => email, "password" => password}) do
+    case Accounts.get_user_by_email_and_password(email, password) do
+      %User{} = user ->
+        token = Accounts.create_user_api_token(user)
+
+        render(conn, :create, token: token, token_type: "bearer")
+
+      nil ->
+        {:error, :unauthorized}
+    end
+  end
+end
