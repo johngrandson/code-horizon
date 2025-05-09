@@ -1,0 +1,56 @@
+<.container class="py-16">
+  <.page_header title="Listing Questions">
+    <.button link_type="live_patch" label="New Question" to={~p"/app/questions/new"} />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.QuestionLive.FormComponent}
+        id={@question.id || :new}
+        action={@live_action}
+        question={@question}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@questions}>
+    <:if_empty>No questions found</:if_empty>
+    <:col field={:question_text} sortable />
+    <:col field={:question_type} sortable />
+    <:col field={:points} sortable />
+    <:col field={:order} sortable />
+    <:col :let={question} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/questions/#{question}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/questions/#{question}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={question.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

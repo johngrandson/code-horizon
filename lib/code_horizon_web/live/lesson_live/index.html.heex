@@ -1,0 +1,55 @@
+<.container class="py-16">
+  <.page_header title="Listing Lessons">
+    <.button link_type="live_patch" label="New Lesson" to={~p"/app/lessons/new"} />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.LessonLive.FormComponent}
+        id={@lesson.id || :new}
+        action={@live_action}
+        lesson={@lesson}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@lessons}>
+    <:if_empty>No lessons found</:if_empty>
+    <:col field={:title} sortable />
+    <:col field={:content} sortable />
+    <:col field={:order} sortable />
+    <:col :let={lesson} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/lessons/#{lesson}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/lessons/#{lesson}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={lesson.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

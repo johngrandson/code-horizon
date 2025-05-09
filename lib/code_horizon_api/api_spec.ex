@@ -3,6 +3,8 @@ defmodule CodeHorizonApi.ApiSpec do
 
   @behaviour OpenApiSpex.OpenApi
 
+  alias CodeHorizonWeb.Endpoint
+  alias CodeHorizonWeb.Router
   alias OpenApiSpex.Components
   alias OpenApiSpex.Info
   alias OpenApiSpex.MediaType
@@ -12,8 +14,6 @@ defmodule CodeHorizonApi.ApiSpec do
   alias OpenApiSpex.Schema
   alias OpenApiSpex.SecurityScheme
   alias OpenApiSpex.Server
-  alias CodeHorizonWeb.Endpoint
-  alias CodeHorizonWeb.Router
 
   @impl OpenApi
   @spec spec :: OpenApiSpex.OpenApi.t()
@@ -24,7 +24,7 @@ defmodule CodeHorizonApi.ApiSpec do
         Server.from_endpoint(Endpoint)
       ],
       info: %Info{
-        title: "Petal Pro API",
+        title: "Code Horizon API",
         version: "1.0"
       },
       components: %Components{

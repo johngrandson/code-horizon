@@ -37,12 +37,12 @@ defmodule CodeHorizonWeb.CoreComponents do
       <img class={@class} src={~p"/images/#{@logo_file}"} alt={CodeHorizon.config(:app_name)} />
     <% else %>
       <img
-        class={@class <> " block dark:hidden"}
+        class={@class <> " block dark:hidden h-14"}
         src={~p"/images/logo_dark.svg"}
         alt={CodeHorizon.config(:app_name)}
       />
       <img
-        class={@class <> " hidden dark:block"}
+        class={@class <> " hidden dark:block h-14"}
         src={~p"/images/logo_light.svg"}
         alt={CodeHorizon.config(:app_name)}
       />

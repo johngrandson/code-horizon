@@ -1,0 +1,1068 @@
+<.layout current_page={:dashboard} current_user={@current_user} type="sidebar">
+  <div class="py-8 px-4 md:px-8 lg:px-10 max-w-7xl mx-auto">
+    <!-- Dashboard header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+        <span class="bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-400 dark:to-primary-500 bg-clip-text text-transparent">
+          Welcome back,
+        </span>
+        <span>{@current_user.name}</span>
+        <div class="ml-2 animate-wave origin-bottom-right">👋</div>
+      </h1>
+      <p class="mt-2 text-gray-600 dark:text-gray-400 text-lg">
+        Track your learning progress and upcoming tasks
+      </p>
+    </div>
+
+    <div class="mb-10">
+      <div class="flex justify-between items-center mb-5">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+          <div class="w-1 h-6 bg-gradient-to-b from-orange-500 to-orange-400 rounded-full mr-2.5 shadow-sm">
+          </div>
+          Learning Statistics
+        </h2>
+        <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center px-2.5 py-1 rounded-full bg-orange-50 dark:bg-gray-800 border border-orange-100 dark:border-gray-700">
+          <.icon
+            name="hero-arrow-path"
+            class="w-3.5 h-3.5 mr-1.5 text-orange-500 dark:text-orange-400 animate-spin-slow"
+          />
+          <span>Updated just now</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Completed Courses Card -->
+        <div class="bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-800/95 rounded-xl shadow-sm border border-orange-100 dark:border-orange-900/30 relative overflow-hidden group hover:shadow-md transition-all duration-500 hover:border-orange-200 dark:hover:border-orange-800/50">
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-500 to-orange-400 shadow-sm">
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-3.5">
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                  Completed Courses
+                </p>
+                <div class="flex items-baseline mt-1.5">
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    {@learning_stats.completed_courses}
+                  </p>
+                  <div class="ml-2 py-1 px-2.5 rounded-full text-orange-700 dark:text-orange-300 text-xs font-semibold bg-orange-50 dark:bg-orange-900/30 border border-orange-100 dark:border-orange-800/50 shadow-sm">
+                    courses
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl text-orange-600 dark:text-orange-400 bg-gradient-to-br from-orange-50 to-orange-100/70 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-100 dark:border-orange-700/30 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow">
+                <.icon name="hero-check-circle" class="w-6 h-6" />
+              </div>
+            </div>
+
+            <div class="mt-3.5 flex items-center">
+              <div class="w-full h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
+                <div
+                  class="h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-400 flex items-center justify-end transition-all duration-1000 ease-out"
+                  style={"width: #{completion_percentage(@learning_stats.completed_courses, @learning_stats.total_courses)}%"}
+                >
+                  <div class="w-1.5 h-1.5 rounded-full bg-white mr-1 opacity-75 shadow-sm"></div>
+                </div>
+              </div>
+              <div class="ml-2.5 text-xs text-gray-500 dark:text-gray-400 font-medium bg-white dark:bg-gray-700 px-1.5 py-0.5 rounded border border-gray-100 dark:border-gray-600 shadow-sm">
+                {completion_percentage(
+                  @learning_stats.completed_courses,
+                  @learning_stats.total_courses
+                )}%
+              </div>
+            </div>
+
+            <div class="text-xs text-orange-600 dark:text-orange-400 mt-3 flex items-center font-medium">
+              <div class="flex items-center mr-1.5 bg-orange-50 dark:bg-orange-900/20 rounded-full p-0.5 shadow-sm border border-orange-100 dark:border-orange-800/30">
+                <.icon name="hero-arrow-up" class="w-3 h-3" />
+              </div>
+              <span>{calculate_trend(@learning_stats.completed_courses)}% from last month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-800/95 rounded-xl shadow-sm border border-orange-100 dark:border-orange-900/30 relative overflow-hidden group hover:shadow-md transition-all duration-500 hover:border-orange-200 dark:hover:border-orange-800/50">
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-600 to-orange-500 shadow-sm">
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-3.5">
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                  Courses in Progress
+                </p>
+                <div class="flex items-baseline mt-1.5">
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    {@learning_stats.courses_in_progress}
+                  </p>
+                  <div class="ml-2 py-1 px-2.5 rounded-full text-orange-700 dark:text-orange-300 text-xs font-semibold bg-orange-50 dark:bg-orange-900/30 border border-orange-100 dark:border-orange-800/50 shadow-sm">
+                    active
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl text-orange-600 dark:text-orange-400 bg-gradient-to-br from-orange-50 to-orange-100/70 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-100 dark:border-orange-700/30 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow">
+                <.icon name="hero-book-open" class="w-6 h-6" />
+              </div>
+            </div>
+
+            <div class="mt-3.5 flex items-center">
+              <div class="flex space-x-1">
+                <%= for i <- 1..5 do %>
+                  <div class={"w-8 h-2 rounded-md shadow-inner border border-gray-50 dark:border-gray-600 #{if i <= activity_level(@learning_stats.courses_in_progress), do: "bg-gradient-to-r from-orange-500 to-orange-400 dark:from-orange-500 dark:to-orange-600", else: "bg-gray-100 dark:bg-gray-700"}"}>
+                    <%= if i <= activity_level(@learning_stats.courses_in_progress) do %>
+                      <div class="h-full flex justify-end items-center">
+                        <div class="w-1 h-1 rounded-full bg-white mr-0.5 opacity-75"></div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="ml-2.5 text-xs text-gray-500 dark:text-gray-400 font-medium bg-white dark:bg-gray-700 px-1.5 py-0.5 rounded border border-gray-100 dark:border-gray-600 shadow-sm">
+                Activity
+              </div>
+            </div>
+
+            <div class="text-xs text-orange-600 dark:text-orange-400 mt-3 flex items-center font-medium">
+              <div class="flex items-center mr-1.5 bg-orange-50 dark:bg-orange-900/20 rounded-full p-0.5 shadow-sm border border-orange-100 dark:border-orange-800/30">
+                <.icon name="hero-clock" class="w-3 h-3" />
+              </div>
+              <span>Last active {random_time_ago()}</span>
+            </div>
+          </div>
+        </div>
+        
+<!-- Total Courses Card -->
+        <div class="bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-800/95 rounded-xl shadow-sm border border-orange-100 dark:border-orange-900/30 relative overflow-hidden group hover:shadow-md transition-all duration-500 hover:border-orange-200 dark:hover:border-orange-800/50">
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-700 to-orange-600 shadow-sm">
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-3.5">
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                  Total Courses
+                </p>
+                <div class="flex items-baseline mt-1.5">
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    {@learning_stats.total_courses}
+                  </p>
+                  <div class="ml-2 py-1 px-2.5 rounded-full text-orange-700 dark:text-orange-300 text-xs font-semibold bg-orange-50 dark:bg-orange-900/30 border border-orange-100 dark:border-orange-800/50 shadow-sm">
+                    total
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl text-orange-600 dark:text-orange-400 bg-gradient-to-br from-orange-50 to-orange-100/70 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-100 dark:border-orange-700/30 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow">
+                <.icon name="hero-squares-2x2" class="w-6 h-6" />
+              </div>
+            </div>
+
+            <div class="mt-3.5 flex items-end h-8 space-x-1 bg-gradient-to-b from-gray-50 to-white dark:from-gray-700/30 dark:to-gray-800 p-1 rounded-lg border border-gray-100 dark:border-gray-700 shadow-inner">
+              <%= for _ <- 1..(@learning_stats.completed_courses) do %>
+                <div
+                  class="w-2 bg-gradient-to-t from-orange-500 to-orange-400 rounded-sm group-hover:animate-pulse transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
+                  style={"height: #{:rand.uniform(70) + 30}%"}
+                >
+                </div>
+              <% end %>
+              <%= for _ <- 1..(@learning_stats.courses_in_progress) do %>
+                <div
+                  class="w-2 bg-gradient-to-t from-orange-600 to-orange-500 rounded-sm transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
+                  style={"height: #{:rand.uniform(70) + 30}%"}
+                >
+                </div>
+              <% end %>
+              <%= for _ <- 1..(@learning_stats.total_courses - @learning_stats.completed_courses - @learning_stats.courses_in_progress) do %>
+                <div
+                  class="w-2 bg-gradient-to-t from-gray-200 to-gray-100 dark:from-gray-600 dark:to-gray-700 rounded-sm transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
+                  style={"height: #{:rand.uniform(70) + 30}%"}
+                >
+                </div>
+              <% end %>
+            </div>
+
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-3 flex items-center justify-between">
+              <div class="flex items-center px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
+                <div class="w-2 h-2 bg-gradient-to-r from-orange-500 to-orange-400 rounded-sm mr-1 shadow-sm">
+                </div>
+                <span>Completed</span>
+              </div>
+              <div class="flex items-center px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
+                <div class="w-2 h-2 bg-gradient-to-r from-orange-600 to-orange-500 rounded-sm mr-1 shadow-sm">
+                </div>
+                <span>In progress</span>
+              </div>
+              <div class="flex items-center px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
+                <div class="w-2 h-2 bg-gradient-to-r from-gray-200 to-gray-100 dark:from-gray-600 dark:to-gray-700 rounded-sm mr-1 shadow-sm">
+                </div>
+                <span>Not started</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+<!-- Average Progress Card -->
+        <div class="bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-gray-800/95 rounded-xl shadow-sm border border-orange-100 dark:border-orange-900/30 relative overflow-hidden group hover:shadow-md transition-all duration-500 hover:border-orange-200 dark:hover:border-orange-800/50">
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-800 to-orange-700 shadow-sm">
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-3.5">
+              <div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                  Average Progress
+                </p>
+                <div class="flex items-baseline mt-1.5">
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                    {round(@learning_stats.avg_progress)}
+                  </p>
+                  <div class="ml-2 py-1 px-2.5 rounded-full text-orange-700 dark:text-orange-300 text-xs font-semibold bg-orange-50 dark:bg-orange-900/30 border border-orange-100 dark:border-orange-800/50 shadow-sm">
+                    %
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl text-orange-600 dark:text-orange-400 bg-gradient-to-br from-orange-50 to-orange-100/70 dark:from-orange-900/30 dark:to-orange-800/20 border border-orange-100 dark:border-orange-700/30 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow relative">
+                <div class="absolute inset-0 rounded-xl bg-orange-300 dark:bg-orange-600 opacity-30 animate-ping">
+                </div>
+                <.icon name="hero-chart-bar" class="w-6 h-6 relative z-10" />
+              </div>
+            </div>
+
+            <div class="mt-2 flex items-center justify-center">
+              <div class="relative w-16 h-16 mr-3">
+                <svg class="w-full h-full drop-shadow-sm" viewBox="0 0 36 36">
+                  <!-- Light gray background circle -->
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#E5E7EB"
+                    stroke-width="2.5"
+                    stroke-dasharray="100, 100"
+                    class="dark:stroke-gray-600"
+                  />
+                  <!-- Gradient foreground circle with percentage -->
+                  <path
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="url(#orange-gradient)"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-dasharray={"#{@learning_stats.avg_progress}, 100"}
+                    class="transition-all duration-1000 ease-out"
+                  />
+                  <!-- Define the gradient for the progress path -->
+                  <defs>
+                    <linearGradient id="orange-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#F97316" />
+                      <stop offset="100%" stop-color="#FB923C" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <!-- Percentage in the middle with glass effect -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-sm font-bold text-gray-800 dark:text-white bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm px-1.5 py-0.5 rounded-lg shadow-sm border border-white/50 dark:border-gray-700/50">
+                    {round(@learning_stats.avg_progress)}%
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-1">
+                <div class="text-sm font-medium text-gray-900 dark:text-white">
+                  {progress_status(@learning_stats.avg_progress)}
+                </div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 px-2 py-1 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
+                  {progress_message(@learning_stats.avg_progress)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <.card class="overflow-hidden shadow-md hover:shadow-lg mb-8 transition-all duration-500 border-0 rounded-xl bg-white dark:bg-gray-800">
+      <!-- Modern header with decorative element -->
+      <div class="relative">
+        <!-- Decorative top bar -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
+        </div>
+
+        <div class="px-6 pt-6 flex justify-between items-center">
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <div class="relative flex -top-2 items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg">
+                <.icon name="hero-academic-cap" class="w-5 h-5 text-white" />
+              </div>
+            </div>
+            <div class="mb-4">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                My Courses
+                <span class="ml-2 flex items-center justify-center w-6 h-6 bg-orange-100 dark:bg-orange-900/40 rounded-full text-xs font-semibold text-orange-700 dark:text-orange-300">
+                  {@enrolled_courses_count}
+                </span>
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                Your latest enrolled courses
+              </p>
+            </div>
+          </div>
+          <.button
+            link_type="live_redirect"
+            to={~p"/app/courses"}
+            variant="ghost"
+            size="sm"
+            class="font-medium text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300"
+          >
+            All courses <.icon name="hero-chevron-right" class="w-4 h-4 ml-1" />
+          </.button>
+        </div>
+      </div>
+
+      <div class="p-5" style="min-height: 320px">
+        <%= if @enrolled_courses_count == 0 do %>
+          <div class="text-center py-12 px-6">
+            <div class="bg-orange-50 dark:bg-orange-900/20 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <.icon name="hero-book-open" class="w-10 h-10 text-orange-400 dark:text-orange-500" />
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              No enrolled courses
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+              Explore our recommended courses to start your learning journey and develop new skills.
+            </p>
+            <.button
+              link_type="live_redirect"
+              to={~p"/app/courses"}
+              color="primary"
+              class="font-medium shadow transition-all duration-300"
+            >
+              <.icon name="hero-academic-cap" class="w-4 h-4 mr-2" /> Browse courses
+            </.button>
+          </div>
+        <% else %>
+          <div class="space-y-4">
+            <div
+              :for={{dom_id, course} <- @streams.enrolled_courses}
+              id={dom_id}
+              class="group overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800/50 bg-white dark:bg-gray-800"
+            >
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-5 p-4">
+                <div class="md:col-span-3">
+                  <div class="rounded-lg overflow-hidden shadow-sm h-full relative">
+                    <img
+                      src={course.cover_image || "/images/default-course.jpg"}
+                      alt={course.title}
+                      class="h-full w-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="md:col-span-9">
+                  <div class="flex flex-col h-full justify-between">
+                    <div>
+                      <div class="flex items-start justify-between mb-1">
+                        <h3 class="text-lg font-bold tracking-tight text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300 line-clamp-2">
+                          {course.title}
+                        </h3>
+
+                        <%= if course.progress > 75 and course.progress < 100 do %>
+                          <div class="px-2 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-md flex items-center shadow-sm">
+                            <.icon name="hero-fire" class="w-3.5 h-3.5 mr-1" /> Almost done!
+                          </div>
+                        <% end %>
+                        <%= if course.progress == 100 do %>
+                          <div class="px-2 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-md flex items-center shadow-sm">
+                            <.icon name="hero-fire" class="w-3.5 h-3.5 mr-1" /> Very nice!
+                          </div>
+                        <% end %>
+                      </div>
+
+                      <div class="text-sm text-gray-500 dark:text-gray-400 mb-3 flex items-center mt-1">
+                        <div class="w-5 h-5 rounded-full overflow-hidden mr-1.5 ring-2 ring-orange-200 dark:ring-orange-800/50">
+                          <img
+                            src={course.instructor.avatar || "/images/default-avatar.jpg"}
+                            alt={course.instructor.name}
+                            class="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span>
+                          Instructor:
+                          <span class="font-medium text-gray-700 dark:text-gray-300">
+                            {course.instructor.name}
+                          </span>
+                        </span>
+                      </div>
+
+                      <div class="mb-1 flex items-center justify-between">
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          Course Progress
+                        </span>
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {course.progress}%
+                        </span>
+                      </div>
+                      <.progress
+                        value={course.progress}
+                        class="h-2 rounded-full bg-gray-100 dark:bg-gray-700"
+                        color="primary"
+                      />
+                    </div>
+
+                    <div class="flex flex-wrap gap-3 my-3">
+                      <div class="flex items-center bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-md shadow-sm border border-orange-100 dark:border-orange-800/30">
+                        <.icon
+                          name="hero-clock"
+                          class="w-3.5 h-3.5 mr-1.5 text-orange-600 dark:text-orange-400"
+                        />
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {"Updated recently"}
+                        </span>
+                      </div>
+
+                      <div class="flex items-center bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-md shadow-sm border border-orange-100 dark:border-orange-800/30">
+                        <.icon
+                          name="hero-academic-cap"
+                          class="w-3.5 h-3.5 mr-1.5 text-orange-600 dark:text-orange-400"
+                        />
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {course.level || "All Levels"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="mt-3 flex justify-end">
+                      <.button
+                        color="primary"
+                        phx-click="explore_course"
+                        phx-value-id={course.id}
+                        class="font-medium shadow transition-all duration-300 transform group-hover:scale-105"
+                      >
+                        Continue
+                        <.icon
+                          name="hero-arrow-right"
+                          class="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform"
+                        />
+                      </.button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </.card>
+
+    <div class="grid grid-cols-1 mb-8 lg:grid-cols-2 gap-8">
+      <!-- Recent Activity Card -->
+      <.card class="overflow-hidden shadow-md hover:shadow-lg transition-all duration-500 border-0 rounded-xl bg-white dark:bg-gray-800">
+        <!-- Modern header with decorative element -->
+        <div class="relative">
+          <!-- Decorative top bar -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
+          </div>
+
+          <div class="px-6 pt-6 pb-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <div class="relative -top-3 flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg">
+                  <.icon name="hero-clock" class="w-5 h-5 text-white" />
+                </div>
+              </div>
+              <div class="mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                  Recent Activity
+                  <span class="ml-2 flex items-center justify-center w-6 h-6 bg-orange-100 dark:bg-orange-900/40 rounded-full text-xs font-semibold text-orange-700 dark:text-orange-300">
+                    {Enum.count(@streams.recent_activity)}
+                  </span>
+                </h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Your latest learning accomplishments
+                </p>
+              </div>
+            </div>
+
+            <button class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors flex items-center">
+              View all <.icon name="hero-chevron-right" class="w-4 h-4 ml-1" />
+            </button>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6">
+          <%= if @recent_activity_count == 0 do %>
+            <!-- Empty state -->
+            <div class="bg-gray-50 dark:bg-gray-700/30 rounded-xl p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full shadow-md mb-4">
+                <.icon
+                  name="hero-clock"
+                  class="w-8 h-8 text-orange-400 dark:text-orange-500 opacity-80"
+                />
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                No Recent Activity
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-4">
+                Your learning activities will appear here as you progress through courses.
+              </p>
+              <.button color="primary" phx-click="explore_courses" class="shadow">
+                Explore Courses <.icon name="hero-academic-cap" class="w-4 h-4 ml-1" />
+              </.button>
+            </div>
+          <% else %>
+            <!-- Modern activity list -->
+            <div class="space-y-4">
+              <%= for {dom_id, activity} <- @streams.recent_activity do %>
+                <div id={dom_id} class="group">
+                  <div class="bg-gray-50 dark:bg-gray-700/30 rounded-xl overflow-hidden hover:shadow-md transition-all duration-300 hover:bg-orange-50/50 dark:hover:bg-orange-900/10">
+                    <div class="flex items-start p-4">
+                      <!-- Activity icon -->
+
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-1">
+                          <p class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-orange-700 dark:group-hover:text-orange-400 transition-colors">
+                            {activity_message(activity)}
+                          </p>
+                          <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center ml-2 whitespace-nowrap">
+                            <.icon name="hero-clock" class="w-3 h-3 mr-1 opacity-70" />
+                            {relative_time(activity.timestamp)}
+                          </span>
+                        </div>
+                        <div class="mt-1">
+                          <%= cond do %>
+                            <% activity.type == :course_enrolled || activity.type == "course_enrolled" -> %>
+                              <div class="flex items-center gap-2 flex-wrap">
+                                <div class="text-xs font-medium text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/40 px-2 py-0.5 rounded flex items-center">
+                                  <.icon name="hero-academic-cap" class="w-3 h-3 mr-1" /> Course
+                                </div>
+                                <span class="text-sm text-gray-700 dark:text-gray-300 truncate">
+                                  {if Map.get(activity, :course_title),
+                                    do: activity.course_title,
+                                    else: "Course"}
+                                </span>
+                              </div>
+                            <% activity.type == :lesson_completed || activity.type == "lesson_completed" -> %>
+                              <div class="flex flex-col gap-1">
+                                <div class="flex items-center gap-2">
+                                  <div class="text-xs font-medium text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/40 px-2 py-0.5 rounded flex items-center">
+                                    <.icon name="hero-book-open" class="w-3 h-3 mr-1" /> Lesson
+                                  </div>
+                                  <span class="text-sm text-gray-700 dark:text-gray-300 truncate">
+                                    {if Map.get(activity, :lesson_title),
+                                      do: activity.lesson_title,
+                                      else: "Lesson"}
+                                  </span>
+                                </div>
+                                <%= if Map.get(activity, :course_title) do %>
+                                  <div class="text-xs text-gray-500 dark:text-gray-400 ml-1 flex items-center">
+                                    <.icon
+                                      name="hero-academic-cap"
+                                      class="w-3 h-3 mr-1 opacity-60"
+                                    />
+                                    <span class="truncate">{activity.course_title}</span>
+                                  </div>
+                                <% end %>
+                              </div>
+                            <% activity.type == :assessment_completed || activity.type == "assessment_completed" -> %>
+                              <div class="flex flex-col gap-1">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                  <div class="text-xs font-medium text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/40 px-2 py-0.5 rounded flex items-center">
+                                    <.icon
+                                      name="hero-clipboard-document-check"
+                                      class="w-3 h-3 mr-1"
+                                    /> Assessment
+                                  </div>
+                                  <span class="text-sm text-gray-700 dark:text-gray-300 truncate">
+                                    {if Map.get(activity, :assessment_title),
+                                      do: activity.assessment_title,
+                                      else: "Assessment"}
+                                  </span>
+
+                                  <%= if Map.get(activity, :score) do %>
+                                    <div class={"ml-auto px-2 py-0.5 rounded text-xs font-medium #{score_color_class(activity.score)} flex items-center"}>
+                                      <.icon name="hero-star" class="w-3 h-3 mr-1" />
+                                      {activity.score}%
+                                    </div>
+                                  <% end %>
+                                </div>
+                              </div>
+                            <% true -> %>
+                              <span class="text-sm text-gray-500 dark:text-gray-400">
+                                Activity details
+                              </span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    
+<!-- Action button -->
+                    <div class="flex border-t border-gray-100 dark:border-gray-700">
+                      <%= cond do %>
+                        <% activity.type == :course_enrolled || activity.type == "course_enrolled" -> %>
+                          <button
+                            phx-click="navigate_to_course"
+                            phx-value-id={Map.get(activity, :course_id)}
+                            class="w-full py-2 px-4 bg-gray-50 dark:bg-gray-700/30 flex items-center justify-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/20 transition-colors"
+                          >
+                            Continue Learning
+                            <.icon
+                              name="hero-arrow-right"
+                              class="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform"
+                            />
+                          </button>
+                        <% activity.type == :assessment_completed || activity.type == "assessment_completed" -> %>
+                          <button
+                            phx-click="view_assessment_details"
+                            phx-value-id={Map.get(activity, :assessment_id)}
+                            class="w-full py-2 px-4 bg-gray-50 dark:bg-gray-700/30 flex items-center justify-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/20 transition-colors"
+                          >
+                            View Results
+                            <.icon name="hero-document-magnifying-glass" class="w-3.5 h-3.5 ml-1" />
+                          </button>
+                        <% true -> %>
+                          <button
+                            phx-click="view_activity_details"
+                            phx-value-id={activity.id}
+                            class="w-full py-2 px-4 bg-gray-50 dark:bg-gray-700/30 flex items-center justify-center text-sm font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/20 transition-colors"
+                          >
+                            Details
+                            <.icon name="hero-information-circle" class="w-3.5 h-3.5 ml-1" />
+                          </button>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </.card>
+
+      <.card class="overflow-hidden shadow-md hover:shadow-lg transition-all duration-500 border-0 rounded-xl bg-white dark:bg-gray-800">
+        <!-- Modern header with decorative element -->
+        <div class="relative">
+          <!-- Decorative top bar -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
+          </div>
+
+          <div class="px-6 pt-6 pb-4 mb-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <div class="absolute inset-0 rounded-full bg-orange-500/20 animate-flicker opacity-60">
+                </div>
+                <div class="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg">
+                  <.icon name="hero-sparkles" class="w-5 h-5 text-white" />
+                </div>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                  Recommended Courses
+                </h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  Personalized for your learning journey
+                </p>
+              </div>
+            </div>
+
+            <button class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors flex items-center">
+              Browse all <.icon name="hero-chevron-right" class="w-4 h-4 ml-1" />
+            </button>
+          </div>
+        </div>
+
+        <div class="px-6 pb-6">
+          <%= if @recommended_courses_count == 0 do %>
+            <!-- Empty state -->
+            <div class="bg-gray-50 dark:bg-gray-700/30 rounded-xl p-8 text-center">
+              <div class="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full shadow-md mb-4">
+                <.icon
+                  name="hero-sparkles"
+                  class="w-8 h-8 text-orange-400 dark:text-orange-500 opacity-80"
+                />
+              </div>
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                No recommendations available
+              </h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-4">
+                Recommendations will appear based on your learning history and interests.
+              </p>
+              <.button color="primary" phx-click="explore_courses" class="shadow">
+                Explore Courses <.icon name="hero-academic-cap" class="w-4 h-4 ml-1" />
+              </.button>
+            </div>
+          <% else %>
+            <!-- Modern course cards -->
+            <div class="space-y-5">
+              <div
+                :for={{dom_id, course} <- @streams.recommended_courses}
+                id={dom_id}
+                class="group overflow-hidden rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-800/50 bg-white dark:bg-gray-800"
+              >
+                <div class="flex flex-col">
+                  <!-- Course thumbnail with overlay - agora em cima como topbar -->
+                  <div class="relative w-full flex-shrink-0 overflow-hidden">
+                    <div class="aspect-[21/9] w-full overflow-hidden">
+                      <img
+                        src={course.cover_image || "/images/default-course.jpg"}
+                        alt={course.title}
+                        class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                      </div>
+                    </div>
+
+                    <%= if course.discount_percentage do %>
+                      <div class="absolute -right-9 top-6 bg-gradient-to-r from-orange-600 to-red-600 text-white px-10 py-1 transform rotate-45 shadow-lg text-xs font-bold">
+                        {course.discount_percentage}% OFF
+                      </div>
+                    <% end %>
+
+                    <%= if course.is_premium do %>
+                      <div class="absolute top-3 left-3 flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-2 py-0.5 border border-orange-500/30">
+                        <.icon name="hero-sparkles" class="w-3.5 h-3.5 text-orange-400" />
+                        <span class="text-xs font-medium text-white">Premium</span>
+                      </div>
+                    <% end %>
+
+                    <div class="absolute bottom-0 left-0 right-0 p-3 flex flex-col gap-1.5">
+                      <!-- Rating -->
+                      <div class="flex items-center">
+                        <div class="px-1.5 py-0.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-md flex items-center shadow-sm">
+                          {course.rating || "N/A"}
+                          <.icon name="hero-star" class="w-3 h-3 ml-0.5" />
+                        </div>
+
+                        <div class="ml-1.5 flex">
+                          <%= for i <- 1..5 do %>
+                            <.icon
+                              name={
+                                if i <= trunc(course.rating || 0),
+                                  do: "hero-star",
+                                  else: "hero-star"
+                              }
+                              class={"w-3 h-3 #{if i <= trunc(course.rating || 0), do: "text-orange-400", else: "text-gray-400"}"}
+                            />
+                          <% end %>
+                          <span class="ml-1 text-xs text-white">
+                            ({course.review_count || 0})
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="flex items-center gap-1.5 flex-wrap">
+                        <div class="bg-white/20 backdrop-blur-sm text-white text-xs py-0.5 px-2 rounded-full border border-white/10">
+                          {course.category || "Course"}
+                        </div>
+
+                        <div class="bg-white/20 backdrop-blur-sm text-white text-xs py-0.5 px-2 rounded-full border border-white/10 flex items-center">
+                          <.icon name="hero-academic-cap" class="w-3 h-3 mr-1" />
+                          {course.level || "All Levels"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+<!-- Course information - agora em baixo -->
+                  <div class="p-4 flex-grow flex flex-col lg:p-5">
+                    <div>
+                      <!-- Course title -->
+                      <h3 class="text-lg font-bold mb-1 line-clamp-2 tracking-tight text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                        {course.title}
+                      </h3>
+
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mb-2 flex items-center">
+                        <.icon
+                          name="hero-clock"
+                          class="w-3 h-3 mr-1 text-orange-500/70 dark:text-orange-400/70"
+                        /> Updated {course.last_updated || "Recently"}
+                      </p>
+
+                      <p class="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                        {course.description}
+                      </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3 mb-4 mt-auto">
+                      <div
+                        class="flex items-center bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-md shadow-sm border border-orange-100 dark:border-orange-800/30"
+                        title="Course duration"
+                      >
+                        <.icon
+                          name="hero-clock"
+                          class="w-3.5 h-3.5 mr-1.5 text-orange-600 dark:text-orange-400"
+                        />
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {course.duration || "Self-paced"}
+                        </span>
+                      </div>
+
+                      <div
+                        class="flex items-center bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-md shadow-sm border border-orange-100 dark:border-orange-800/30"
+                        title="Content amount"
+                      >
+                        <.icon
+                          name="hero-video-camera"
+                          class="w-3.5 h-3.5 mr-1.5 text-orange-600 dark:text-orange-400"
+                        />
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {course.content_count || "0"} {course.content_type || "lectures"}
+                        </span>
+                      </div>
+
+                      <div
+                        class="flex items-center bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-md shadow-sm border border-orange-100 dark:border-orange-800/30"
+                        title="Total students"
+                      >
+                        <.icon
+                          name="hero-users"
+                          class="w-3.5 h-3.5 mr-1.5 text-orange-600 dark:text-orange-400"
+                        />
+                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                          {format_count(course.enrollment_count || 0)} students
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="flex items-center p-3 mb-4 rounded-lg bg-gray-50 dark:bg-gray-700/30 border border-gray-100 dark:border-gray-700">
+                      <div class="w-9 h-9 rounded-full overflow-hidden mr-3 ring-2 ring-orange-200 dark:ring-orange-800/50">
+                        <img
+                          src={course.instructor.avatar || "/images/default-avatar.jpg"}
+                          alt={course.instructor.name}
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium text-gray-900 dark:text-white flex items-center">
+                          {course.instructor.name}
+                          <%= if course.instructor.is_verified do %>
+                            <.icon
+                              name="hero-check-badge"
+                              class="w-4 h-4 ml-1 text-orange-500 dark:text-orange-400"
+                            />
+                          <% end %>
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                          Instructor
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-gray-700">
+                      <div class="flex flex-col">
+                        <%= if course.original_price && course.original_price > course.price do %>
+                          <span class="text-sm line-through text-gray-500 dark:text-gray-400">
+                            ${course.original_price}
+                          </span>
+                        <% end %>
+
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">
+                          <%= if course.is_free do %>
+                            <span class="text-green-600 dark:text-green-400">Free</span>
+                          <% else %>
+                            <span class="text-orange-600 dark:text-orange-400">
+                              ${course.price || 0}
+                            </span>
+                          <% end %>
+                        </span>
+                      </div>
+
+                      <.button
+                        size="sm"
+                        color="primary"
+                        phx-click="explore_course"
+                        phx-value-id={course.id}
+                        class="font-medium shadow transition-all duration-300 transform group-hover:scale-105"
+                      >
+                        <%= if course.is_in_cart do %>
+                          View in Cart <.icon name="hero-shopping-cart" class="w-4 h-4 ml-1" />
+                        <% else %>
+                          <%= if course.is_free do %>
+                            Enroll Now
+                          <% else %>
+                            Add to Cart
+                          <% end %>
+                          <.icon
+                            name="hero-arrow-right"
+                            class="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform"
+                          />
+                        <% end %>
+                      </.button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </.card>
+    </div>
+
+    <.card class="mb-8 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+      <!-- Card header -->
+      <div class="p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-800">
+        <div class="flex items-center">
+          <div class="p-2 rounded-md bg-primary-100 dark:bg-primary-900/40 mr-3">
+            <.icon
+              name="hero-clipboard-document-check"
+              class="w-5 h-5 text-primary-600 dark:text-primary-400"
+            />
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Upcoming Assessments
+          </h3>
+        </div>
+      </div>
+
+      <div class="p-5">
+        <%= if @upcoming_assessments_count == 0 do %>
+          <!-- Empty state -->
+          <div class="text-center py-10 px-6">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-full h-20 w-20 flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <.icon
+                name="hero-clipboard-document-check"
+                class="w-10 h-10 text-gray-400 dark:text-gray-500"
+              />
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              No pending assessments
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+              You're up to date with your assessments. Great job!
+            </p>
+          </div>
+        <% else %>
+          <!-- Assessments grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div
+              :for={{dom_id, assessment} <- @streams.upcoming_assessments}
+              id={dom_id}
+              class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-all duration-300 group hover:border-primary-200 dark:hover:border-primary-800"
+            >
+              <div class="flex justify-between items-start">
+                <h4 class="font-medium text-base text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                  {assessment.title}
+                </h4>
+                <.badge
+                  color={assessment_badge_color(assessment.assessment_type)}
+                  class="font-medium"
+                >
+                  {humanize_assessment_type(assessment.assessment_type)}
+                </.badge>
+              </div>
+
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 flex items-center">
+                <.icon
+                  name="hero-book-open"
+                  class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400"
+                />
+                {assessment.course_title}
+              </p>
+
+              <%= if assessment.due_date do %>
+                <div class="mt-3 flex items-center text-sm">
+                  <.icon
+                    name="hero-calendar"
+                    class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400"
+                  />
+                  <span class={"font-medium #{due_date_class(assessment.due_date)} #{dark_due_date_class(assessment.due_date)}"}>
+                    Due: {Calendar.strftime(assessment.due_date, "%b %d, %Y")}
+                  </span>
+                </div>
+              <% end %>
+
+              <div class="mt-4 flex justify-end">
+                <.button
+                  size="sm"
+                  link_type="live_redirect"
+                  to={~p"/app/assessments/#{assessment.id}"}
+                  class="font-medium group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20"
+                >
+                  Start Assessment
+                  <.icon
+                    name="hero-play"
+                    class="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform"
+                  />
+                </.button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </.card>
+  </div>
+
+  <style>
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      10% { transform: rotate(14deg); }
+      20% { transform: rotate(-8deg); }
+      30% { transform: rotate(14deg); }
+      40% { transform: rotate(-4deg); }
+      50% { transform: rotate(10deg); }
+      60% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .animate-wave {
+      animation: wave 2s ease-in-out 0.5s;
+    }
+
+    @keyframes spin-slow {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .animate-spin-slow {
+      animation: spin-slow 3s linear infinite;
+    }
+
+    @keyframes ping-slow {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.4;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+    .animate-ping-slow {
+      animation: ping-slow 3s ease-in-out infinite;
+    }
+
+    @keyframes flicker {
+      0% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      25% {
+        opacity: 0.6;
+        transform: scale(1.05);
+      }
+      50% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      75% {
+        opacity: 0.5;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+    }
+    .animate-flicker {
+      animation: flicker 3s ease-in-out infinite;
+    }
+  </style>
+</.layout>

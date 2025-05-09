@@ -1,0 +1,55 @@
+<.container class="py-16">
+  <.page_header title="Listing Enrollments">
+    <.button link_type="live_patch" label="New Enrollment" to={~p"/app/enrollments/new"} />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.EnrollmentLive.FormComponent}
+        id={@enrollment.id || :new}
+        action={@live_action}
+        enrollment={@enrollment}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@enrollments}>
+    <:if_empty>No enrollments found</:if_empty>
+    <:col field={:status} sortable />
+    <:col field={:enrolled_at} sortable />
+    <:col field={:expires_at} sortable />
+    <:col :let={enrollment} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/enrollments/#{enrollment}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/enrollments/#{enrollment}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={enrollment.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

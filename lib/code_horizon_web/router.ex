@@ -16,7 +16,9 @@ defmodule CodeHorizonWeb.Router do
 
     plug :put_secure_browser_headers, %{
       "content-security-policy" =>
-        ContentSecurityPolicy.serialize(struct(ContentSecurityPolicy.Policy, CodeHorizon.config(:content_security_policy)))
+        ContentSecurityPolicy.serialize(
+          struct(ContentSecurityPolicy.Policy, CodeHorizon.config(:content_security_policy))
+        )
     }
 
     plug :fetch_current_user
@@ -86,8 +88,12 @@ defmodule CodeHorizonWeb.Router do
       # Add live authenticated routes here
 
       use CodeHorizonWeb.BillingRoutes
+      use CodeHorizonWeb.LMSRoutes
+      use CodeHorizonWeb.StudentRoutes
+      use CodeHorizonWeb.InstructorRoutes
 
       live "/", DashboardLive
+
       live "/users/onboarding", UserOnboardingLive
       live "/users/edit-profile", EditProfileLive
       live "/users/edit-email", EditEmailLive

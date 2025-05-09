@@ -1,0 +1,31 @@
+<div>
+  <.form
+    for={@form}
+    id="assessment-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+    
+    <.field type="text" field={@form[:title]} />
+    
+    <.field type="textarea" field={@form[:description]} />
+    
+    <.field type="number" field={@form[:passing_score]} />
+    
+    <.field type="number" field={@form[:max_attempts]} />
+    
+    <.field type="number" field={@form[:time_limit_minutes]} />
+    
+    <.field type="select" field={@form[:assessment_type]} options={Ecto.Enum.values(CodeHorizon.Assessments.Assessment, :assessment_type)} prompt="Choose a value" />
+    
+    <.field type="checkbox" field={@form[:is_published]} />
+    
+    <div class="flex justify-end">
+      <.button
+        type="submit"
+        phx-disable-with="Saving..."
+        label="Save"
+      />
+    </div>
+  </.form>
+</div>

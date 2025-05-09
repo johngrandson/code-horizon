@@ -1,0 +1,59 @@
+<.container class="py-16">
+  <.page_header title="Listing Assessments">
+    <.button link_type="live_patch" label="New Assessment" to={~p"/app/assessments/new"} />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.AssessmentLive.FormComponent}
+        id={@assessment.id || :new}
+        action={@live_action}
+        assessment={@assessment}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@assessments}>
+    <:if_empty>No assessments found</:if_empty>
+    <:col field={:title} sortable />
+    <:col field={:description} sortable />
+    <:col field={:passing_score} sortable />
+    <:col field={:max_attempts} sortable />
+    <:col field={:time_limit_minutes} sortable />
+    <:col field={:assessment_type} sortable />
+    <:col field={:is_published} sortable />
+    <:col :let={assessment} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/assessments/#{assessment}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/assessments/#{assessment}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={assessment.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

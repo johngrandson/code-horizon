@@ -144,6 +144,8 @@ config :code_horizon, :content_security_policy, %{
     "'self'",
     "data:",
     "blob:",
+    "https://*",
+    "https://images.unsplash.com",
     "https://cdnjs.cloudflare.com",
     "https://cdn.skypack.dev",
     "https://cdn.jsdelivr.net",

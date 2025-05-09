@@ -164,6 +164,8 @@ defmodule CodeHorizon.Notifications do
     apply_user_notifications_query_opts(query, opts)
   end
 
+  # Private functions
+
   defp apply_user_notifications_query_opts(query, []), do: query
 
   defp apply_user_notifications_query_opts(query, opts) do

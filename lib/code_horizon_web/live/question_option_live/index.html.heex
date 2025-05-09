@@ -1,0 +1,59 @@
+<.container class="py-16">
+  <.page_header title="Listing Question options">
+    <.button
+      link_type="live_patch"
+      label="New Question option"
+      to={~p"/app/question_options/new"}
+    />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.QuestionOptionLive.FormComponent}
+        id={@question_option.id || :new}
+        action={@live_action}
+        question_option={@question_option}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@question_options}>
+    <:if_empty>No question_options found</:if_empty>
+    <:col field={:option_text} sortable />
+    <:col field={:is_correct} sortable />
+    <:col field={:order} sortable />
+    <:col :let={question_option} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/question_options/#{question_option}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/question_options/#{question_option}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={question_option.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

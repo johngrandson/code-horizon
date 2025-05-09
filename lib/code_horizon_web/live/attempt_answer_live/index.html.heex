@@ -1,0 +1,55 @@
+<.container class="py-16">
+  <.page_header title="Listing Attempt answers">
+    <.button link_type="live_patch" label="New Attempt answer" to={~p"/app/attempt_answers/new"} />
+  </.page_header>
+
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal title={@page_title}>
+      <.live_component
+        module={CodeHorizonWeb.AttemptAnswerLive.FormComponent}
+        id={@attempt_answer.id || :new}
+        action={@live_action}
+        attempt_answer={@attempt_answer}
+        return_to={current_index_path(@index_params)}
+      />
+    </.modal>
+  <% end %>
+
+  <.data_table :if={@index_params} meta={@meta} items={@attempt_answers}>
+    <:if_empty>No attempt_answers found</:if_empty>
+    <:col field={:answer_text} sortable />
+    <:col field={:is_correct} sortable />
+    <:col field={:points_awarded} sortable />
+    <:col :let={attempt_answer} label="Actions" align_right>
+      <.button
+        color="primary"
+        variant="outline"
+        size="xs"
+        link_type="live_redirect"
+        label="Show"
+        to={~p"/app/attempt_answers/#{attempt_answer}"}
+      />
+
+      <.button
+        color="white"
+        variant="outline"
+        size="xs"
+        link_type="live_patch"
+        label="Edit"
+        to={~p"/app/attempt_answers/#{attempt_answer}/edit"}
+      />
+
+      <.button
+        color="danger"
+        variant="outline"
+        link_type="a"
+        to="#"
+        size="xs"
+        label="Delete"
+        phx-click="delete"
+        phx-value-id={attempt_answer.id}
+        data-confirm="Are you sure?"
+      />
+    </:col>
+  </.data_table>
+</.container>

@@ -20,7 +20,12 @@ defmodule CodeHorizon.Application do
       # Start a worker by calling: CodeHorizon.Worker.start_link(arg)
       # {CodeHorizon.Worker, arg}
       # Start to serve requests, typically the last entry
-      CodeHorizonWeb.Endpoint
+      CodeHorizonWeb.Endpoint,
+      # Event bus subscribers
+      CodeHorizon.Lessons.Subscribers.CourseSubscriber,
+      CodeHorizon.Enrollments.Subscribers.CourseSubscriber,
+      CodeHorizon.ProgressTracking.Subscribers.EnrollmentSubscriber,
+      CodeHorizon.ProgressTracking.Subscribers.LessonSubscriber
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

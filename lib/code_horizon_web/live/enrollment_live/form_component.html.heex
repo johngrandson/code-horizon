@@ -1,0 +1,23 @@
+<div>
+  <.form
+    for={@form}
+    id="enrollment-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+    
+    <.field type="select" field={@form[:status]} options={Ecto.Enum.values(CodeHorizon.Enrollments.Enrollment, :status)} prompt="Choose a value" />
+    
+    <.field type="datetime-local" field={@form[:enrolled_at]} />
+    
+    <.field type="datetime-local" field={@form[:expires_at]} />
+    
+    <div class="flex justify-end">
+      <.button
+        type="submit"
+        phx-disable-with="Saving..."
+        label="Save"
+      />
+    </div>
+  </.form>
+</div>

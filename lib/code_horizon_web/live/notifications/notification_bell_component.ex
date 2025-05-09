@@ -38,7 +38,7 @@ defmodule CodeHorizonWeb.NotificationBellComponent do
 
   attr :dropdown_class, :string,
     default:
-      "hidden absolute sm:right-0 -right-14 z-10 p-4 mt-2 origin-top-right border dark:border-gray-700 bg-white dark:dark:bg-gray-800 dark:text-gray-100 rounded-md shadow-lg",
+      "hidden absolute sm:right-0 -right-14 z-10 p-4 mt-2 origin-top-right bg-white dark:dark:bg-gray-800 dark:text-gray-100 rounded-md shadow-lg",
     doc: "The class applied to the dropdown menu container."
 
   attr :dropdown_width_class, :string,
