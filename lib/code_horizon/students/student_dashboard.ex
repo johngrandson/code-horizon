@@ -1,5 +1,4 @@
-# lib/code_horizon/students/student_dashboard.ex
-defmodule CodeHorizon.Students.StudentDashboard do
+defmodule CodeHorizon.StudentDashboard do
   @moduledoc """
   A projection struct representing aggregated dashboard data for a student (Like a DTO).
   This is not persisted as an entity, but constructed on-demand from various domain sources.

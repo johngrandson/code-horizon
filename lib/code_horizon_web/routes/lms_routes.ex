@@ -59,8 +59,6 @@ defmodule CodeHorizonWeb.LMSRoutes do
       live "/attempt_answers/:id/edit", AttemptAnswerLive.Index, :edit
       live "/attempt_answers/:id", AttemptAnswerLive.Show, :show
       live "/attempt_answers/:id/show/edit", AttemptAnswerLive.Show, :edit
-
-      live "/student/dashboard", StudentDashboardLive.Index, :index
     end
   end
 end

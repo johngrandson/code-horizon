@@ -19,7 +19,7 @@ defmodule CodeHorizon.LMS do
   alias CodeHorizon.Enrollments
   alias CodeHorizon.ProgressTracking
   alias CodeHorizon.Repo
-  alias CodeHorizon.Students.StudentDashboard
+  alias CodeHorizon.StudentDashboard
 
   def get_student_dashboard_data(student_id) do
     %StudentDashboard{

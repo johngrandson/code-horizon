@@ -10,7 +10,7 @@ defmodule CodeHorizon.Students do
   alias CodeHorizon.Enrollments
   alias CodeHorizon.ProgressTracking
   alias CodeHorizon.Repo
-  alias CodeHorizon.Students.StudentDashboard
+  alias CodeHorizon.StudentDashboard
 
   @doc """
   Returns a dashboard projection for a specific student.

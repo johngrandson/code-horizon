@@ -91,6 +91,7 @@ defmodule CodeHorizonWeb.Router do
       use CodeHorizonWeb.LMSRoutes
       use CodeHorizonWeb.StudentRoutes
       use CodeHorizonWeb.InstructorRoutes
+      use CodeHorizonWeb.TemplatesRoutes
 
       live "/", DashboardLive
 

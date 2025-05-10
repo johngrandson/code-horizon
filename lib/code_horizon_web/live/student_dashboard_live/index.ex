@@ -180,8 +180,6 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
   defp progress_message(avg_progress) when avg_progress >= 20, do: "Moving forward"
   defp progress_message(_), do: "Start your journey"
 
-  # Adicione estas funções ao seu arquivo student_dashboard_live/index.ex
-
   # Helper function to generate a lighter version of the activity icon color for gradient
   def activity_icon_color_lighter(type) do
     base_color = activity_color_for_icon(type)

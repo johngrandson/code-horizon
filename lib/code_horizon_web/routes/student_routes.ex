@@ -5,7 +5,7 @@ defmodule CodeHorizonWeb.StudentRoutes do
 
   defmacro __using__(_opts) do
     quote do
-      live "/student/dashboard", Students.DashboardLive, :index
+      live "/student/dashboard", StudentDashboardLive.Index, :index
 
       live "/student/courses", Students.CourseCatalogLive, :index
       live "/student/courses/:id", Students.CourseDetailsLive, :show

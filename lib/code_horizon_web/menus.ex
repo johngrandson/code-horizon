@@ -21,13 +21,15 @@ defmodule CodeHorizonWeb.Menus do
   def main_menu_items(nil), do: []
 
   # Signed in main menu
-  def main_menu_items(current_user), do: build_menu([:dashboard, :orgs, :subscribe, :user_ai_chat], current_user)
+  def main_menu_items(current_user),
+    do: build_menu([:dashboard, :orgs, :student_dashboard, :subscribe, :user_ai_chat], current_user)
 
   # Signed out user menu
   def user_menu_items(nil), do: build_menu([:sign_in, :register], nil)
 
   # Signed in user menu
-  def user_menu_items(current_user), do: build_menu([:dashboard, :settings, :admin, :dev, :sign_out], current_user)
+  def user_menu_items(current_user),
+    do: build_menu([:dashboard, :settings, :admin, :dev, :templates, :sign_out], current_user)
 
   def build_menu(menu_items, current_user \\ nil) do
     menu_items
@@ -167,6 +169,15 @@ defmodule CodeHorizonWeb.Menus do
     }
   end
 
+  def get_link(:student_dashboard = name, _current_user) do
+    %{
+      name: name,
+      label: gettext("Student Dashboard"),
+      path: ~p"/app/student/dashboard",
+      icon: "hero-academic-cap"
+    }
+  end
+
   def get_link(:subscribe = name, _current_user) do
     if Customers.entity() == :user do
       %{
@@ -283,6 +294,15 @@ defmodule CodeHorizonWeb.Menus do
         icon: "hero-wallet"
       }
     end
+  end
+
+  def get_link(:templates = name, _current_user) do
+    %{
+      name: name,
+      label: gettext("Templates"),
+      path: ~p"/app/templates",
+      icon: "hero-swatch"
+    }
   end
 
   def get_link(:dev = name, _current_user) do

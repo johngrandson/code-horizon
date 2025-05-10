@@ -22,6 +22,7 @@ alias CodeHorizon.Orgs.Org
 alias CodeHorizon.Orgs.OrgSeeder
 alias CodeHorizon.Posts.Post
 alias CodeHorizon.Posts.PostSeeder
+alias CodeHorizon.Templates.TemplateSeeder
 
 if Mix.env() == :dev do
   CodeHorizon.Repo.delete_all(Log)
@@ -53,4 +54,5 @@ if Mix.env() == :dev do
 
   FileSeeder.create_files(admin)
   PostSeeder.create_posts(admin)
+  TemplateSeeder.seed_default_templates()
 end
