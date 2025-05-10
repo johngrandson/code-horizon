@@ -9,6 +9,7 @@ defmodule CodeHorizonComponents do
       import CodeHorizonWeb.ComboBox
       import CodeHorizonWeb.ContentEditor
       import CodeHorizonWeb.DataTable
+      import CodeHorizonWeb.FeatureCards
       import CodeHorizonWeb.Flash
       import CodeHorizonWeb.FloatingDiv
       import CodeHorizonWeb.LanguageSelect

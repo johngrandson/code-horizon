@@ -3,6 +3,7 @@
 @source "../../deps/petal_components/**/*.*ex";
 @import "../../deps/petal_components/assets/default.css";
 
+@import "./themed_components.css";
 @import "./colors.css";
 @import "./combo-box.css";
 @import "./editorjs.css";

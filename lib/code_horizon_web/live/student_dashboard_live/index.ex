@@ -5,17 +5,29 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
   """
   use CodeHorizonWeb, :live_view
 
+  import CodeHorizonWeb.FeatureCards
+  import CodeHorizonWeb.LMSComponents.ActivityComponents
+  import CodeHorizonWeb.LMSComponents.CourseComponents
+  import CodeHorizonWeb.Util.CssForComponent
+
   alias CodeHorizon.Students
+
+  @dashboard_css load_css("lms_dashboard.css")
 
   @impl true
   def mount(_params, _session, socket) do
     student_id = socket.assigns.current_user.id
     dashboard_data = Students.get_student_dashboard!(student_id)
 
+    {featured_courses, regular_courses} = Enum.split(dashboard_data.recommended_courses, 2)
+
     {:ok,
      socket
+     |> assign_dashboard_data(dashboard_data)
      |> assign(:page_title, "Student Dashboard")
-     |> assign_dashboard_data(dashboard_data)}
+     |> assign(:dashboard_css, @dashboard_css)
+     |> stream(:featured_recommended_courses, featured_courses)
+     |> stream(:regular_recommended_courses, regular_courses)}
   end
 
   @impl true
@@ -64,84 +76,6 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
     |> stream(:recommended_courses, dashboard_data.recommended_courses)
   end
 
-  # Helper functions for activity display
-
-  defp activity_message(activity) do
-    case activity.type do
-      :course_enrolled -> "Enrolled in a new course"
-      :course_completed -> "Completed a course"
-      :assessment_submitted -> "Submitted an assessment"
-      :assessment_completed -> "Completed an assessment"
-      :lesson_completed -> "Completed a lesson"
-      _ -> "Performed an activity"
-    end
-  end
-
-  # Helper functions for display
-
-  defp format_count(count) when is_integer(count) do
-    cond do
-      count >= 1_000_000 -> "#{Float.round(count / 1_000_000, 1)}M"
-      count >= 1_000 -> "#{Float.round(count / 1_000, 1)}K"
-      true -> to_string(count)
-    end
-  end
-
-  defp format_count(_), do: "0"
-
-  defp relative_time(timestamp) do
-    now = NaiveDateTime.utc_now()
-    diff_seconds = NaiveDateTime.diff(now, timestamp, :second)
-
-    cond do
-      diff_seconds < 60 -> "just now"
-      diff_seconds < 60 * 60 -> "#{div(diff_seconds, 60)} minutes ago"
-      diff_seconds < 60 * 60 * 24 -> "#{div(diff_seconds, 60 * 60)} hours ago"
-      diff_seconds < 60 * 60 * 24 * 7 -> "#{div(diff_seconds, 60 * 60 * 24)} days ago"
-      diff_seconds < 60 * 60 * 24 * 30 -> "#{div(diff_seconds, 60 * 60 * 24 * 7)} weeks ago"
-      true -> format_datetime(timestamp)
-    end
-  end
-
-  defp assessment_badge_color(type) do
-    case type do
-      :quiz -> "info"
-      :exam -> "warning"
-      :assignment -> "success"
-      _ -> "secondary"
-    end
-  end
-
-  defp humanize_assessment_type(type) do
-    type
-    |> to_string()
-    |> String.capitalize()
-  end
-
-  defp due_date_class(due_date) do
-    days_until = Date.diff(due_date, Date.utc_today())
-
-    cond do
-      days_until < 0 -> "text-red-500"
-      days_until <= 3 -> "text-amber-500"
-      true -> "text-gray-500"
-    end
-  end
-
-  defp dark_due_date_class(due_date) do
-    days_until = Date.diff(due_date, Date.utc_today())
-
-    cond do
-      days_until < 0 -> "text-red-400"
-      days_until <= 3 -> "text-amber-400"
-      true -> "text-gray-400"
-    end
-  end
-
-  defp format_datetime(datetime) do
-    Calendar.strftime(datetime, "%b %d, %Y at %H:%M")
-  end
-
   # Helper functions for stats
 
   defp completion_percentage(completed, total) do
@@ -168,6 +102,28 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
     Enum.random(options)
   end
 
+  # Assessment helper functions
+
+  defp humanize_assessment_type(type) do
+    type
+    |> to_string()
+    |> String.capitalize()
+  end
+
+  # Progress status helpers
+
+  defp progress_color_class(progress, is_text \\ false) do
+    prefix = if is_text, do: "text", else: "bg"
+
+    cond do
+      progress >= 80 -> "#{prefix}-green-600 dark:#{prefix}-green-400"
+      progress >= 60 -> "#{prefix}-[color:var(--color-primary-600)] dark:#{prefix}-[color:var(--color-primary-400)]"
+      progress >= 40 -> "#{prefix}-blue-600 dark:#{prefix}-blue-400"
+      progress >= 20 -> "#{prefix}-amber-600 dark:#{prefix}-amber-400"
+      true -> "#{prefix}-yellow-600 dark:#{prefix}-yellow-400"
+    end
+  end
+
   defp progress_status(avg_progress) when avg_progress >= 80, do: "Excellent!"
   defp progress_status(avg_progress) when avg_progress >= 60, do: "Good progress"
   defp progress_status(avg_progress) when avg_progress >= 40, do: "On track"
@@ -180,56 +136,35 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
   defp progress_message(avg_progress) when avg_progress >= 20, do: "Moving forward"
   defp progress_message(_), do: "Start your journey"
 
-  # Helper function to generate a lighter version of the activity icon color for gradient
-  def activity_icon_color_lighter(type) do
-    base_color = activity_color_for_icon(type)
-
-    # Create a lighter version with orange theme
-    case base_color do
-      # orange-600
-      # orange-500
-      "#EA580C" -> "#F97316"
-      # orange-700
-      # orange-600
-      "#C2410C" -> "#EA580C"
-      # orange-800
-      # orange-700
-      "#9A3412" -> "#C2410C"
-      # orange-900
-      # orange-800
-      "#7C2D12" -> "#9A3412"
-      # default - orange-400
-      _ -> "#FB923C"
-    end
-  end
-
-  # Returns the base color for each activity type
-  defp activity_color_for_icon(type) do
+  defp get_assessment_icon(type) do
     case type do
-      # orange-600
-      :course_enrolled -> "#EA580C"
-      :course_started -> "#EA580C"
-      # orange-700
-      :course_completed -> "#C2410C"
-      # orange-800
-      :assessment_submitted -> "#9A3412"
-      :assessment_completed -> "#9A3412"
-      # orange-700
-      :lesson_completed -> "#C2410C"
-      # orange-500
-      _ -> "#F97316"
+      :quiz -> "hero-clipboard-document-list"
+      :exam -> "hero-document-check"
+      :assignment -> "hero-document-text"
+      _ -> "hero-clipboard"
     end
   end
 
-  # Helper function to determine score color class based on score value
-  defp score_color_class(score) when is_number(score) do
+  defp calendar_due_text(due_date, days_until) do
     cond do
-      score >= 90 -> "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400"
-      score >= 70 -> "bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400"
-      score >= 50 -> "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
-      true -> "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400"
+      days_until == nil -> "Unknown"
+      days_until < 0 -> "Overdue! (#{Calendar.strftime(due_date, "%b %d")})"
+      days_until == 0 -> "Today!"
+      days_until == 1 -> "Tomorrow!"
+      days_until < 7 -> "In #{days_until} days"
+      true -> Calendar.strftime(due_date, "%b %d, %Y")
     end
   end
 
-  defp score_color_class(_), do: "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400"
+  defp due_date_class(due_date) do
+    days_until = if due_date, do: Date.diff(due_date, Date.utc_today())
+
+    cond do
+      days_until == nil -> ""
+      days_until < 0 -> "text-red-600 dark:text-red-400 font-medium"
+      days_until == 0 -> "text-amber-600 dark:text-amber-400 font-medium"
+      days_until <= 3 -> "text-amber-500 dark:text-amber-400"
+      true -> "text-gray-500 dark:text-gray-400"
+    end
+  end
 end

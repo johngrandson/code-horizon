@@ -4,6 +4,8 @@ defmodule CodeHorizonWeb.TemplateLive.Index do
   """
   use CodeHorizonWeb, :live_view
 
+  import CodeHorizonWeb.TemplateComponents
+
   alias CodeHorizon.Templates
   alias CodeHorizon.Templates.Template
 
@@ -83,24 +85,20 @@ defmodule CodeHorizonWeb.TemplateLive.Index do
     case Templates.set_active_template_for_user(current_user, template) do
       {:ok, _} ->
         templates = Templates.list_templates_for_user(current_user)
+        active_template = Templates.get_active_template_for_user(current_user)
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "Template #{template.name} activated successfully")
-         |> stream(:templates, templates)
-         |> assign(:active_template, Templates.get_active_template_for_user(current_user))
-         |> push_event("theme-change", %{
-           theme: if(template.is_dark_theme, do: "dark", else: "light"),
-           primary_color: template.primary_color,
-           accent_color: template.accent_color,
-           background_color: template.background_color
-         })
-         |> push_event("apply-template", %{
-           css_variables: Template.to_css_variables(template)
-         })}
+        socket =
+          socket
+          |> put_flash(:info, "Template #{template.name} activated successfully")
+          |> stream(:templates, templates)
+          |> assign(:active_template, active_template)
+          |> apply_template_style(template)
+
+        {:noreply, socket}
 
       {:error, changeset} ->
-        {:noreply, put_flash(socket, :error, "Error activating template: #{inspect(changeset.errors)}")}
+        error_message = format_error_message(changeset)
+        {:noreply, put_flash(socket, :error, error_message)}
     end
   end
 
@@ -110,6 +108,25 @@ defmodule CodeHorizonWeb.TemplateLive.Index do
   end
 
   # Private functions
+
+  defp apply_template_style(socket, template) do
+    theme = if(template.is_dark_theme, do: "dark", else: "light")
+
+    socket
+    |> push_event("theme-change", %{
+      theme: theme,
+      primary_color: template.primary_color,
+      accent_color: template.accent_color,
+      background_color: template.background_color
+    })
+    |> push_event("apply-template", %{
+      css_variables: Template.to_css_variables(template)
+    })
+  end
+
+  defp format_error_message(changeset) do
+    "Error activating template: #{inspect(changeset.errors)}"
+  end
 
   defp can_edit_template?(user, template) do
     # Only the template creator can edit it

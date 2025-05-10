@@ -66,6 +66,7 @@ defmodule CodeHorizonWeb do
 
       on_mount({CodeHorizonWeb.UserOnMountHooks, :maybe_assign_user})
       on_mount(CodeHorizonWeb.RestoreLocaleHook)
+      on_mount(CodeHorizonWeb.RestoreThemeHook)
       on_mount(CodeHorizonWeb.AllowEctoSandboxHook)
       on_mount({CodeHorizonWeb.ViewSetupHook, :reset_page_title})
 

@@ -1,5 +1,5 @@
 <.layout current_page={:templates} current_user={@current_user} type="sidebar">
-  <div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="max-w-6xl mx-auto px-4 py-4">
     <!-- Dashboard header -->
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -16,311 +16,50 @@
       </p>
     </div>
 
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-        <div
-          class="w-1 h-6 bg-gradient-to-b rounded-full mr-2.5 shadow-sm"
-          style={"background-image: linear-gradient(to bottom, #{@active_template.primary_color}, #{@active_template.accent_color})"}
+    <.section_header
+      title="Current Active Template"
+      primary_color={@active_template.primary_color}
+      accent_color={@active_template.accent_color}
+    >
+      <:action>
+        <.themed_button
+          to={~p"/app/templates/new"}
+          style={"background-color: #{@active_template.primary_color}"}
+          class="shadow transition-all duration-300 font-medium"
         >
-        </div>
-        Current Active Template
-      </h2>
-      <.button
-        to={~p"/app/templates/new"}
-        style={"background-color: #{@active_template.primary_color}"}
-        class="shadow transition-all duration-300 font-medium"
-      >
-        <.icon name="hero-plus" class="w-5 h-5 mr-2" /> Create Template
-      </.button>
-    </div>
+          <.icon name="hero-plus" class="w-5 h-5 mr-2" /> Create Template
+        </.themed_button>
+      </:action>
+    </.section_header>
 
-    <div class="mb-12 rounded-xl relative hover:shadow-md transition-all duration-500 group overflow-hidden rounded-xl shadow-sm duration-300 border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-      <div
-        class="h-1.5 w-full shadow-sm"
-        style={"background-color: #{@active_template.primary_color}"}
-      >
-      </div>
-      <div class="p-6">
-        <div class="flex items-start justify-between mb-3.5">
-          <div>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {@active_template.name}
-            </h2>
-            <p class="text-gray-600 dark:text-gray-300">{@active_template.description}</p>
-          </div>
+    <.active_template_card template={@active_template} />
 
-          <div
-            class="p-3 rounded-xl shadow-lg"
-            style={[
-              "color: #{@active_template.primary_color}"
-            ]}
-          >
-            <.icon name="hero-check-circle" class="w-6 h-6" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <div
-            class="p-5 rounded-xl hover:shadow-md transition-all duration-300"
-            style={[
-              "border: 1px solid #{@active_template.primary_color}30",
-              "background-image: linear-gradient(to bottom right, white, #{@active_template.primary_color}10)"
-            ]}
-          >
-            <h3 class="font-medium mb-3 flex items-center">
-              <.icon
-                name="hero-swatch"
-                class="w-4 h-4 mr-2 "
-                style={[
-                  "color: #{@active_template.primary_color}"
-                ]}
-              /> Color Scheme
-            </h3>
-            <div class="flex items-center space-x-4">
-              <div>
-                <div
-                  class="w-16 h-16 rounded-lg mb-1 shadow-md ring-2 ring-white dark:ring-gray-800"
-                  style={"background-color: #{@active_template.primary_color}"}
-                >
-                </div>
-                <p class="text-xs text-center font-medium text-gray-700 dark:text-gray-300">
-                  Primary
-                </p>
-              </div>
-              <div>
-                <div
-                  class="w-16 h-16 rounded-lg mb-1 shadow-md ring-2 ring-white dark:ring-gray-800"
-                  style={"background-color: #{@active_template.accent_color}"}
-                >
-                </div>
-                <p class="text-xs text-center font-medium text-gray-700 dark:text-gray-300">
-                  Secondary
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-5 rounded-xl hover:shadow-md transition-all duration-300">
-            <h3 class="font-medium mb-3 flex items-center">
-              <.icon
-                name="hero-eye"
-                class="w-4 h-4 mr-2"
-                style={[
-                  "color: #{@active_template.primary_color}"
-                ]}
-              /> Visualization
-            </h3>
-            <div class="flex flex-wrap gap-3 mb-3">
-              <button
-                class="px-4 py-2 rounded-md text-white shadow-sm hover:shadow transition-all duration-300"
-                style={"background-color: #{@active_template.primary_color}"}
-              >
-                Primary Button
-              </button>
-              <button
-                class="px-4 py-2 rounded-md text-white shadow-sm hover:shadow transition-all duration-300"
-                style={"background-color: #{@active_template.accent_color}"}
-              >
-                Secondary Button
-              </button>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span
-                class="px-2 py-1 rounded-md text-xs font-medium text-white shadow-sm"
-                style={"background-color: #{@active_template.primary_color}"}
-              >
-                Primary Badge
-              </span>
-              <span
-                class="px-2 py-1 rounded-md text-xs font-medium text-white shadow-sm"
-                style={"background-color: #{@active_template.accent_color}"}
-              >
-                Secondary Badge
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-        <div
-          class="w-1 h-6 bg-gradient-to-b rounded-full mr-2.5 shadow-sm"
-          style={"background-image: linear-gradient(to bottom, #{@active_template.primary_color}, #{@active_template.accent_color})"}
-        >
-        </div>
-        Available Templates
-      </h2>
-      <div
-        class="text-xs flex items-center px-2.5 py-1 rounded-full border"
-        style={[
-          "background-color: #{@active_template.primary_color}10",
-          "border-color: #{@active_template.primary_color}30",
-          "color: #{@active_template.primary_color}"
-        ]}
-      >
-        <.icon
-          name="hero-swatch"
-          class="w-3.5 h-3.5 mr-1.5"
-          style={"color: #{@active_template.primary_color}"}
+    <.section_header
+      title="Available Templates"
+      primary_color={@active_template.primary_color}
+      accent_color={@active_template.accent_color}
+    >
+      <:action>
+        <.template_badge
+          text={"Total: #{Enum.count(@streams.templates)} templates"}
+          primary_color={@active_template.primary_color}
+          icon="hero-swatch"
         />
-        <span>Total: {Enum.count(@streams.templates)} templates</span>
-      </div>
-    </div>
+      </:action>
+    </.section_header>
 
     <div
       id="templates"
       phx-update="stream"
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
     >
-      <div
+      <.template_card
         :for={{id, template} <- @streams.templates}
         id={id}
-        class="group overflow-hidden rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800"
-        style={template.is_active && "border: 2px solid #{@active_template.primary_color}"}
-      >
-        <div
-          class="aspect-video relative cursor-pointer"
-          phx-click="activate"
-          phx-value-id={template.id}
-        >
-          <%= if template.is_active do %>
-            <div
-              class="absolute top-0 left-0 right-0 h-1.5 shadow-sm z-10"
-              style={"background-color: #{@active_template.primary_color}"}
-            >
-            </div>
-          <% end %>
-
-          <%= if template.preview_image do %>
-            <img
-              src={template.preview_image}
-              alt={"Template Preview #{template.name}"}
-              class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-            />
-          <% else %>
-            <div
-              class="w-full h-full transition-all duration-500"
-              style={"background-color: #{template.primary_color}"}
-            >
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div
-                  class="w-1/2 h-1/2 rounded-lg transform transition-transform duration-500 group-hover:scale-110"
-                  style={"background-color: #{template.accent_color}"}
-                >
-                </div>
-              </div>
-            </div>
-          <% end %>
-
-          <%= if template.is_default do %>
-            <div class="absolute top-4 right-4">
-              <span
-                class="text-xs font-bold px-2.5 py-1 rounded-md shadow-sm border"
-                style={[
-                  "background-color: #{@active_template.primary_color}15",
-                  "color: #{@active_template.primary_color}",
-                  "border-color: #{@active_template.primary_color}30"
-                ]}
-              >
-                Default
-              </span>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="p-5">
-          <h3
-            class="text-lg font-bold text-gray-900 dark:text-white transition-colors duration-300"
-            style={"group-hover:color: #{@active_template.primary_color}"}
-          >
-            {template.name}
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 text-sm mt-1 mb-4">{template.description}</p>
-
-          <div class="flex flex-wrap gap-3 mb-4">
-            <div
-              class="flex items-center px-2 py-1 rounded-md shadow-sm border"
-              style={[
-                "background-color: #{@active_template.primary_color}10",
-                "border-color: #{@active_template.primary_color}30"
-              ]}
-            >
-              <.icon
-                name="hero-swatch"
-                class="w-3.5 h-3.5 mr-1.5"
-                style={"color: #{@active_template.primary_color}"}
-              />
-              <div class="flex space-x-2 items-center">
-                <div
-                  class="w-3.5 h-3.5 rounded-full shadow-sm ring-1 ring-white dark:ring-gray-800"
-                  style={"background-color: #{template.primary_color}"}
-                  title="Primary Color"
-                >
-                </div>
-                <div
-                  class="w-3.5 h-3.5 rounded-full shadow-sm ring-1 ring-white dark:ring-gray-800"
-                  style={"background-color: #{template.accent_color}"}
-                  title="Secondary Color"
-                >
-                </div>
-              </div>
-            </div>
-
-            <%= if template.is_active do %>
-              <div
-                class="px-2 py-1 text-white text-xs font-bold rounded-md flex items-center shadow-sm"
-                style={"background-color: #{@active_template.primary_color}"}
-              >
-                <.icon name="hero-check" class="h-3.5 w-3.5 mr-1" /> Active
-              </div>
-            <% end %>
-          </div>
-
-          <div class="flex justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
-            <%= if can_edit_template?(@current_user, template) do %>
-              <div class="flex space-x-2">
-                <.button
-                  to={~p"/app/templates/#{template}/edit"}
-                  style={"background-color: #{@active_template.primary_color}"}
-                  variant="outline"
-                  size="sm"
-                  class="font-medium shadow-sm"
-                >
-                  <.icon name="hero-pencil" class="w-3.5 h-3.5 mr-1" /> Edit
-                </.button>
-
-                <%= unless template.is_active do %>
-                  <.button
-                    phx-click="delete"
-                    phx-value-id={template.id}
-                    data-confirm="Are you sure you want to delete the template?"
-                    variant="outline"
-                    size="sm"
-                    class="font-medium shadow-sm"
-                  >
-                    <.icon name="hero-trash" class="w-3.5 h-3.5 mr-1" /> Delete
-                  </.button>
-                <% end %>
-              </div>
-            <% end %>
-
-            <%= unless template.is_active do %>
-              <.button
-                phx-click="activate"
-                phx-value-id={template.id}
-                style={"background-color: #{@active_template.primary_color}"}
-                size="sm"
-                class="font-medium shadow transition-all duration-300 transform group-hover:scale-105"
-              >
-                Activate <.icon name="hero-check-circle" class="w-3.5 h-3.5 ml-1" />
-              </.button>
-            <% end %>
-          </div>
-        </div>
-      </div>
+        template={template}
+        active_template={@active_template}
+        current_user={@current_user}
+      />
     </div>
   </div>
 
