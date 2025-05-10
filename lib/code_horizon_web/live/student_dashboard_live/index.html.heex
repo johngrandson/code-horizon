@@ -3,7 +3,7 @@
     <!-- Dashboard header -->
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-        <span class="bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-primary-600)] dark:from-[color:var(--color-primary-400)] dark:to-[color:var(--color-primary-500)] bg-clip-text text-transparent">
+        <span class="bg-gradient-to-r from-[color:var(--color-primary-400)] to-[color:var(--color-secondary-500)] dark:from-[color:var(--color-primary-400)] dark:to-[color:var(--color-secondary-500)] bg-clip-text text-transparent">
           Welcome back,
         </span>
         <span>{@current_user.name}</span>
@@ -17,7 +17,7 @@
     <div class="mb-10">
       <div class="flex justify-between items-center mb-5">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
-          <div class="w-1 h-6 bg-gradient-to-b from-[color:var(--color-primary-500)] to-[color:var(--color-primary-400)] rounded-full mr-2.5 shadow-sm">
+          <div class="w-1 h-6 bg-gradient-to-b from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-400)] rounded-full mr-2.5 shadow-sm">
           </div>
           Learning Statistics
         </h2>
@@ -49,7 +49,7 @@
               highlight: true
             }
           ]}
-          class="from-white to-[color:var(--color-primary-50)] dark:from-gray-800 dark:to-gray-800/95"
+          class="from-white to-[color:var(--color-secondary-50)] dark:from-gray-800 dark:to-gray-800/95"
         >
           <:subtitle>
             <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight animate-fade-in">
@@ -63,7 +63,7 @@
           item_id="courses-in-progress"
           badge_text="active"
           badge_icon="hero-book-open"
-          class="from-white to-[color:var(--color-primary-50)] dark:from-gray-800 dark:to-gray-800/95"
+          class="from-white to-[color:var(--color-secondary-50)] dark:from-gray-800 dark:to-gray-800/95"
         >
           <:subtitle>
             <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -74,7 +74,7 @@
           <div class="mt-3.5 flex items-center">
             <div class="flex space-x-1">
               <%= for i <- 1..5 do %>
-                <div class={"w-8 h-2 rounded-md shadow-inner border border-gray-50 dark:border-gray-600 #{if i <= activity_level(@learning_stats.courses_in_progress), do: "bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-primary-400)] dark:from-[color:var(--color-primary-500)] dark:to-[color:var(--color-primary-600)]", else: "bg-gray-100 dark:bg-gray-700"}"}>
+                <div class={"w-8 h-2 rounded-md shadow-inner border border-gray-50 dark:border-gray-600 #{if i <= activity_level(@learning_stats.courses_in_progress), do: "bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-400)] dark:from-[color:var(--color-primary-500)] dark:to-[color:var(--color-secondary-600)]", else: "bg-gray-100 dark:bg-gray-700"}"}>
                   <%= if i <= activity_level(@learning_stats.courses_in_progress) do %>
                     <div class="h-full flex justify-end items-center">
                       <div class="w-1 h-1 rounded-full bg-white mr-0.5 opacity-75"></div>
@@ -101,7 +101,7 @@
           item_id="total-courses"
           badge_text="total"
           badge_icon="hero-squares-2x2"
-          class="from-white to-[color:var(--color-primary-50)] dark:from-gray-800 dark:to-gray-800/95"
+          class="from-white to-[color:var(--color-secondary-50)] dark:from-gray-800 dark:to-gray-800/95"
         >
           <:subtitle>
             <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -112,14 +112,14 @@
           <div class="mt-3.5 flex items-end h-8 space-x-1 bg-gradient-to-b from-gray-50 to-white dark:from-gray-700/30 dark:to-gray-800 p-1 rounded-lg border border-gray-100 dark:border-gray-700 shadow-inner">
             <%= for _ <- 1..(@learning_stats.completed_courses) do %>
               <div
-                class="w-2 bg-gradient-to-t from-[color:var(--color-primary-500)] to-[color:var(--color-primary-400)] rounded-sm group-hover:animate-pulse transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
+                class="w-2 bg-gradient-to-t from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-400)] rounded-sm group-hover:animate-pulse transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
                 style={"height: #{:rand.uniform(70) + 30}%"}
               >
               </div>
             <% end %>
             <%= for _ <- 1..(@learning_stats.courses_in_progress) do %>
               <div
-                class="w-2 bg-gradient-to-t from-[color:var(--color-primary-600)] to-[color:var(--color-primary-500)] rounded-sm transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
+                class="w-2 bg-gradient-to-t from-[color:var(--color-primary-600)] to-[color:var(--color-secondary-500)] rounded-sm transition-all duration-300 group-hover:translate-y-[-2px] shadow-sm"
                 style={"height: #{:rand.uniform(70) + 30}%"}
               >
               </div>
@@ -135,12 +135,12 @@
 
           <div class="text-xs text-gray-500 dark:text-gray-400 mt-3 flex items-center justify-between">
             <div class="flex items-center px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
-              <div class="w-2 h-2 bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-primary-400)] rounded-sm mr-1 shadow-sm">
+              <div class="w-2 h-2 bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-400)] rounded-sm mr-1 shadow-sm">
               </div>
               <span>Completed</span>
             </div>
             <div class="flex items-center px-1.5 py-0.5 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 shadow-sm">
-              <div class="w-2 h-2 bg-gradient-to-r from-[color:var(--color-primary-600)] to-[color:var(--color-primary-500)] rounded-sm mr-1 shadow-sm">
+              <div class="w-2 h-2 bg-gradient-to-r from-[color:var(--color-primary-600)] to-[color:var(--color-secondary-500)] rounded-sm mr-1 shadow-sm">
               </div>
               <span>In progress</span>
             </div>
@@ -157,7 +157,7 @@
           item_id="avg-progress"
           badge_text="%"
           badge_icon="hero-chart-bar"
-          class="from-white to-[color:var(--color-primary-50)] dark:from-gray-800 dark:to-gray-800/95"
+          class="from-white to-[color:var(--color-secondary-50)] dark:from-gray-800 dark:to-gray-800/95"
         >
           <:subtitle>
             <p class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -236,8 +236,7 @@
         </.content_item>
       </div>
     </div>
-    
-<!-- Enrolled Courses Card -->
+
     <.feature_card
       title="My Courses"
       subtitle="Your latest enrolled courses"
@@ -246,6 +245,7 @@
       action_text="All courses"
       action_path={~p"/app/courses"}
     >
+      <!-- Enrolled Courses Card -->
       <%= if @enrolled_courses_count == 0 do %>
         <.feature_empty_state
           title="No enrolled courses"
@@ -265,19 +265,14 @@
     </.feature_card>
 
     <div class="grid grid-cols-1 mb-8 lg:grid-cols-2 gap-8">
-      <!-- Recent Activity Card -->
       <.feature_card
         title="Recent Activity"
         subtitle="Your latest learning accomplishments"
         icon="hero-clock"
         count={@recent_activity_count}
+        action_text="View All"
+        action_path={~p"/app/courses"}
       >
-        <:action>
-          <button class="text-sm font-medium text-[color:var(--color-primary-600)] dark:text-[color:var(--color-primary-400)] hover:text-[color:var(--color-primary-700)] dark:hover:text-[color:var(--color-primary-300)] transition-colors flex items-center">
-            View all <.icon name="hero-chevron-right" class="w-4 h-4 ml-1" />
-          </button>
-        </:action>
-
         <%= if @recent_activity_count == 0 do %>
           <.feature_empty_state
             title="No Recent Activity"
@@ -290,95 +285,100 @@
         <% else %>
           <div class="space-y-4">
             <%= for {dom_id, activity} <- @streams.recent_activity do %>
-              <.activity_item id={dom_id} activity={activity} />
+              <.activity_item id={dom_id} activity={activity} compact />
             <% end %>
           </div>
         <% end %>
       </.feature_card>
-      
-<!-- Recommended Courses Card -->
+
       <.feature_card
-        title="Recommended Courses"
-        subtitle="Personalized for your learning journey"
-        icon="hero-sparkles"
-        count={@recommended_courses_count}
-        action_text="Browse all"
-        action_path={~p"/app/courses"}
+        title="Upcoming Assessments"
+        subtitle="Prepare for your upcoming tests and assignments"
+        icon="hero-clipboard-document-check"
+        count={@upcoming_assessments_count}
       >
-        <%= if @recommended_courses_count == 0 do %>
+        <!-- Upcoming Assessments Card -->
+        <%= if @upcoming_assessments_count == 0 do %>
           <.feature_empty_state
-            title="No recommendations available"
-            message="Recommendations will appear based on your learning history and interests."
-            icon="hero-sparkles"
-            button_text="Explore Courses"
-            button_path={~p"/app/courses"}
-            button_icon="hero-academic-cap"
+            title="No pending assessments"
+            message="You're up to date with your assessments. Great job!"
+            icon="hero-clipboard-document-check"
           />
         <% else %>
-          <div class="space-y-5">
-            <%= for {dom_id, course} <- @streams.featured_recommended_courses do %>
-              <.featured_course_item id={dom_id} course={course} phx_click="explore_course" />
-            <% end %>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <%= for {dom_id, assessment} <- @streams.upcoming_assessments do %>
+              <% days_until =
+                if assessment.due_date,
+                  do: Date.diff(assessment.due_date, Date.utc_today()),
+                  else: nil %>
+              <% urgent = days_until && days_until <= 3 %>
+              <% overdue = days_until && days_until < 0 %>
 
-            <%= for {dom_id, course} <- @streams.regular_recommended_courses do %>
-              <.course_item id={dom_id} course={course} phx_click="explore_course" />
+              <.content_item
+                id={dom_id}
+                title={assessment.title}
+                badge_text={humanize_assessment_type(assessment.assessment_type)}
+                badge_icon={get_assessment_icon(assessment.assessment_type)}
+                metadata={[
+                  %{icon: "hero-book-open", text: assessment.course_title},
+                  %{
+                    icon:
+                      if(overdue,
+                        do: "hero-exclamation-circle",
+                        else: if(urgent, do: "hero-clock", else: "hero-calendar")
+                      ),
+                    text: "Due: #{calendar_due_text(assessment.due_date, days_until)}",
+                    highlight: urgent || overdue,
+                    class: due_date_class(assessment.due_date)
+                  }
+                ]}
+                action_text="Start Assessment"
+                phx_click="view_assessment_details"
+                item_id={assessment.id}
+                class={
+                  if urgent,
+                    do: "border-amber-200 dark:border-amber-800/50 shadow-md",
+                    else:
+                      if(overdue, do: "border-red-200 dark:border-red-800/50 shadow-md", else: "")
+                }
+              />
             <% end %>
           </div>
         <% end %>
       </.feature_card>
     </div>
-    
-<!-- Upcoming Assessments Card -->
+
     <.feature_card
-      title="Upcoming Assessments"
-      subtitle="Prepare for your upcoming tests and assignments"
-      icon="hero-clipboard-document-check"
-      count={@upcoming_assessments_count}
+      title={gettext("Recommended Courses")}
+      subtitle="Personalized for your learning journey"
+      icon="hero-sparkles"
+      count={@recommended_courses_count}
+      action_text="Browse all"
+      action_path={~p"/app/courses"}
     >
-      <%= if @upcoming_assessments_count == 0 do %>
+      <!-- Recommended Courses Card -->
+      <%= if @recommended_courses_count == 0 do %>
         <.feature_empty_state
-          title="No pending assessments"
-          message="You're up to date with your assessments. Great job!"
-          icon="hero-clipboard-document-check"
+          title="No recommendations available"
+          message="Recommendations will appear based on your learning history and interests."
+          icon="hero-sparkles"
+          button_text="Explore Courses"
+          button_path={~p"/app/courses"}
+          button_icon="hero-academic-cap"
         />
       <% else %>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <%= for {dom_id, assessment} <- @streams.upcoming_assessments do %>
-            <% days_until =
-              if assessment.due_date,
-                do: Date.diff(assessment.due_date, Date.utc_today()),
-                else: nil %>
-            <% urgent = days_until && days_until <= 3 %>
-            <% overdue = days_until && days_until < 0 %>
-
-            <.content_item
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <%= for {dom_id, course} <- @streams.featured_recommended_courses do %>
+            <.featured_course_item
               id={dom_id}
-              title={assessment.title}
-              badge_text={humanize_assessment_type(assessment.assessment_type)}
-              badge_icon={get_assessment_icon(assessment.assessment_type)}
-              metadata={[
-                %{icon: "hero-book-open", text: assessment.course_title},
-                %{
-                  icon:
-                    if(overdue,
-                      do: "hero-exclamation-circle",
-                      else: if(urgent, do: "hero-clock", else: "hero-calendar")
-                    ),
-                  text: "Due: #{calendar_due_text(assessment.due_date, days_until)}",
-                  highlight: urgent || overdue,
-                  class: due_date_class(assessment.due_date)
-                }
-              ]}
-              action_text="Start Assessment"
-              phx_click="view_assessment_details"
-              item_id={assessment.id}
-              class={
-                if urgent,
-                  do: "border-amber-200 dark:border-amber-800/50 shadow-md",
-                  else:
-                    if(overdue, do: "border-red-200 dark:border-red-800/50 shadow-md", else: "")
-              }
+              course={course}
+              compact={true}
+              phx_click="explore_course"
             />
+          <% end %>
+
+          <%= for {dom_id, course} <- @streams.regular_recommended_courses do %>
+            <.course_item id={dom_id} course={course} phx_click="explore_course" />
           <% end %>
         </div>
       <% end %>

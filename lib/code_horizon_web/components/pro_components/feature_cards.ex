@@ -58,13 +58,13 @@ defmodule CodeHorizonWeb.FeatureCards do
       <!-- Modern header with decorative element -->
       <div class="relative">
         <!-- Decorative top bar -->
-        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[color:var(--color-primary-400)] via-[color:var(--color-primary-500)] to-[color:var(--color-primary-600)] shadow-sm">
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[color:var(--color-primary-400)] via-[color:var(--color-primary-500)] to-[color:var(--color-secondary-600)] shadow-sm">
         </div>
 
         <div class="px-6 pt-6 flex justify-between items-center">
           <div class="flex items-center space-x-3">
             <div class="relative">
-              <div class={"relative flex -top-2 items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[color:var(--color-primary-500)] to-[color:var(--color-primary-600)] shadow-lg #{if @icon == "hero-sparkles", do: "animate-pulse"}"}>
+              <div class={"relative flex -top-2 items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-600)] shadow-lg #{if @icon == "hero-sparkles", do: "animate-pulse"}"}>
                 <.icon name={@icon} class="w-5 h-5 text-white" />
               </div>
               <%= if @icon == "hero-sparkles" do %>
@@ -266,7 +266,7 @@ defmodule CodeHorizonWeb.FeatureCards do
                 </h3>
 
                 <%= if @badge_text do %>
-                  <div class="px-2 py-1 bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-primary-600)] text-white text-xs font-bold rounded-md flex items-center shadow-sm">
+                  <div class="px-2 py-1 bg-gradient-to-r from-[color:var(--color-primary-500)] to-[color:var(--color-secondary-600)] text-white text-xs font-bold rounded-md flex items-center shadow-sm">
                     <%= if @badge_icon do %>
                       <.icon name={@badge_icon} class="w-3.5 h-3.5 mr-1" />
                     <% end %>

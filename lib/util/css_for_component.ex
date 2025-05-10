@@ -1,4 +1,4 @@
-defmodule CodeHorizonWeb.Util.CssForComponent do
+defmodule CodeHorizonWeb.Util.CSSForComponent do
   @moduledoc """
   Helper functions for managing application assets.
   """

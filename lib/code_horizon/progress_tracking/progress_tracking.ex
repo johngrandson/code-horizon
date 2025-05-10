@@ -302,6 +302,7 @@ defmodule CodeHorizon.ProgressTracking do
           type: :lesson_completed,
           lesson_id: l.id,
           lesson_title: l.title,
+          cover_image: c.cover_image,
           course_id: c.id,
           course_title: c.title,
           timestamp: p.updated_at
@@ -325,6 +326,7 @@ defmodule CodeHorizon.ProgressTracking do
           type: :assessment_completed,
           assessment_id: ass.id,
           assessment_title: ass.title,
+          cover_image: c.cover_image,
           course_id: c.id,
           course_title: c.title,
           score: a.score,
@@ -343,7 +345,13 @@ defmodule CodeHorizon.ProgressTracking do
         on: e.course_id == c.id,
         where: e.student_id == ^student_id,
         order_by: [desc: e.inserted_at],
-        select: %{type: :course_enrolled, course_id: c.id, course_title: c.title, timestamp: e.inserted_at},
+        select: %{
+          type: :course_enrolled,
+          course_id: c.id,
+          course_title: c.title,
+          cover_image: c.cover_image,
+          timestamp: e.inserted_at
+        },
         limit: ^limit
       )
     )

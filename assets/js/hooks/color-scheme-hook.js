@@ -8,7 +8,7 @@ const ColorSchemeHook = {
 
     // Listen for theme-change events from LiveView
     window.addEventListener("phx:theme-change", (e) => {
-      const { theme, primary_color, accent_color, background_color } = e.detail;
+      const { theme, primary_color, accent_color } = e.detail;
 
       localStorage.setItem("theme", theme);
       localStorage.setItem("primary_color", primary_color);
@@ -36,13 +36,7 @@ const ColorSchemeHook = {
 
         // Generate color shades automatically
         this.generateColorShades(accent_color, "accent");
-      }
-
-      if (background_color) {
-        document.documentElement.style.setProperty(
-          "--color-background",
-          background_color
-        );
+        this.generateColorShades(accent_color, "secondary");
       }
     });
   },

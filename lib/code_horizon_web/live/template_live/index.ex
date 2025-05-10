@@ -116,8 +116,7 @@ defmodule CodeHorizonWeb.TemplateLive.Index do
     |> push_event("theme-change", %{
       theme: theme,
       primary_color: template.primary_color,
-      accent_color: template.accent_color,
-      background_color: template.background_color
+      accent_color: template.accent_color
     })
     |> push_event("apply-template", %{
       css_variables: Template.to_css_variables(template)

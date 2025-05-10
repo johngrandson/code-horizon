@@ -8,7 +8,7 @@ defmodule CodeHorizonWeb.StudentDashboardLive.Index do
   import CodeHorizonWeb.FeatureCards
   import CodeHorizonWeb.LMSComponents.ActivityComponents
   import CodeHorizonWeb.LMSComponents.CourseComponents
-  import CodeHorizonWeb.Util.CssForComponent
+  import CodeHorizonWeb.Util.CSSForComponent
 
   alias CodeHorizon.Students
 
