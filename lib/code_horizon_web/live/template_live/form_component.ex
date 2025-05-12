@@ -1,4 +1,5 @@
 defmodule CodeHorizonWeb.TemplateLive.FormComponent do
+  @moduledoc false
   use CodeHorizonWeb, :live_component
 
   alias CodeHorizon.Templates
@@ -9,7 +10,7 @@ defmodule CodeHorizonWeb.TemplateLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-      to_form(Templates.change_template(template))
+       to_form(Templates.change_template(template))
      end)}
   end
 
@@ -23,6 +24,7 @@ defmodule CodeHorizonWeb.TemplateLive.FormComponent do
     {:noreply, assign(socket, form: to_form(changeset))}
   end
 
+  @impl true
   def handle_event("save", %{"template" => template_params}, socket) do
     save_template(socket, socket.assigns.action, template_params)
   end

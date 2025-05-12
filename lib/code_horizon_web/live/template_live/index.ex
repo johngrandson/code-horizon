@@ -102,6 +102,16 @@ defmodule CodeHorizonWeb.TemplateLive.Index do
     end
   end
 
+  def handle_event("open_modal", _params, socket) do
+    template = %Template{}
+
+    {:noreply,
+     socket
+     |> assign(:live_action, :new)
+     |> assign(:template, template)
+     |> assign(:page_title, "New Template")}
+  end
+
   @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: ~p"/app/templates")}

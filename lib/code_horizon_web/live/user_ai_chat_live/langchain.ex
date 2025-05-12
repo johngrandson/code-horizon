@@ -76,7 +76,6 @@ defmodule CodeHorizonWeb.UserAiChatLive.LangChain do
     )
   end
 
-  @spec add_message(LLMChain.t(), String.t()) :: LLMChain.t()
   def add_message(llm_chain, message) do
     with {:ok, llm_chain} <-
            llm_chain

@@ -8,6 +8,7 @@ defmodule CodeHorizon.Templates do
   alias CodeHorizon.Accounts.User
   alias CodeHorizon.Repo
   alias CodeHorizon.Templates.Template
+  alias CodeHorizon.Templates.ThumbGenerator
   alias CodeHorizon.Templates.UserTemplate
 
   @doc """
@@ -140,6 +141,43 @@ defmodule CodeHorizon.Templates do
     |> Template.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Creates a template with an auto-generated thumbnail based on the template attributes.
+
+  This function uses Ecto.Multi to ensure both the template creation and thumbnail
+  generation are performed in a transactional manner. If any operation fails, the
+  entire transaction is rolled back.
+
+  ## Parameters
+    * attrs - Map containing template attributes (description, colors, etc.)
+
+  ## Returns
+    * `{:ok, template}` - Successfully created template with thumbnail
+    * `{:error, reason}` - Error with specific reason for failure
+  """
+  def create_template_with_thumbnail(attrs \\ %{}) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:template, Template.changeset(%Template{}, attrs))
+    |> Ecto.Multi.run(:preview_image, fn _repo, %{template: template} ->
+      # Função wrapper específica para garantir compatibilidade com Ecto.Multi
+      ensure_ecto_multi_compatible_result(ThumbGenerator.generate_thumbnail(template))
+    end)
+    |> Ecto.Multi.update(:update_template, fn %{template: template, preview_image: thumb_path} ->
+      Template.changeset(template, %{preview_image: thumb_path})
+    end)
+    |> CodeHorizon.Repo.transaction()
+    |> case do
+      {:ok, %{update_template: template}} -> {:ok, template}
+      {:error, _failed_operation, reason, _changes} -> {:error, reason}
+    end
+  end
+
+  # Função auxiliar para garantir que o resultado é compatível com o formato esperado pelo Ecto.Multi
+  # Esta função ajuda o Dialyzer a entender que TODOS os possíveis retornos estão cobertos
+  defp ensure_ecto_multi_compatible_result({:ok, result}), do: {:ok, result}
+  defp ensure_ecto_multi_compatible_result({:error, reason}), do: {:error, reason}
+  defp ensure_ecto_multi_compatible_result(_unexpected), do: {:error, "Unexpected thumbnail generation result"}
 
   @doc """
   Updates a template.

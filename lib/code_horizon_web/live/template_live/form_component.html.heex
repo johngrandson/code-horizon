@@ -1,27 +1,191 @@
-<div>
+<div class="bg-white dark:bg-gray-800 rounded-lg p-2 mb-6 max-w-lg mx-auto">
+  <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+    <span class="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+      {@title}
+    </span>
+  </h2>
+
   <.form
     for={@form}
     id="template-form"
     phx-target={@myself}
     phx-change="validate"
-    phx-submit="save">
-    
-    <.field type="text" field={@form[:name]} />
-    
-    <.field type="text" field={@form[:description]} />
-    
-    <.field type="text" field={@form[:primary_color]} />
-    
-    <.field type="text" field={@form[:accent_color]} />
-    
-    <.field type="checkbox" field={@form[:is_default]} />
-    
-    <div class="flex justify-end">
+    phx-submit="save"
+    class="space-y-6"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="md:col-span-2">
+        <.field
+          type="text"
+          field={@form[:name]}
+          placeholder="Enter template name"
+          label_class="font-medium text-gray-700 dark:text-gray-300"
+          class="w-full"
+        />
+      </div>
+
+      <div class="md:col-span-2">
+        <.field
+          type="textarea"
+          field={@form[:description]}
+          placeholder="Enter template description"
+          label_class="font-medium text-gray-700 dark:text-gray-300"
+          class="w-full"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Primary Color
+        </label>
+        <div class="flex items-center">
+          <div class="relative w-20 h-10 rounded-l-md overflow-hidden border border-gray-300 dark:border-gray-600">
+            <input
+              type="color"
+              name={@form[:primary_color].name}
+              id={@form[:primary_color].id}
+              value={@form[:primary_color].value || "#4f46e5"}
+              class="absolute opacity-0 cursor-pointer"
+              style="width: 200%; height: 200%; left: -50%; top: -50%;"
+            />
+            <div
+              class="absolute inset-0 pointer-events-none"
+              style={"background-color: #{@form[:primary_color].value || "var(--color-primary-600)"}"}
+            >
+            </div>
+          </div>
+          <input
+            type="text"
+            value={@form[:primary_color].value || "#4f46e5"}
+            class="rounded-r-md border border-l-0 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm flex-1"
+            readonly
+          />
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Main brand color</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Accent Color
+        </label>
+        <div class="flex items-center">
+          <div class="relative w-20 h-10 rounded-l-md overflow-hidden border border-gray-300 dark:border-gray-600">
+            <input
+              type="color"
+              name={@form[:accent_color].name}
+              id={@form[:accent_color].id}
+              value={@form[:accent_color].value || "#a855f7"}
+              class="absolute opacity-0 cursor-pointer"
+              style="width: 200%; height: 200%; left: -50%; top: -50%;"
+            />
+            <div
+              class="absolute inset-0 pointer-events-none"
+              style={"background-color: #{@form[:accent_color].value || "var(--color-secondary-600)"}"}
+            >
+            </div>
+          </div>
+          <input
+            type="text"
+            value={@form[:accent_color].value || "#a855f7"}
+            class="rounded-r-md border border-l-0 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white px-3 py-2 text-sm flex-1"
+            readonly
+          />
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Secondary color for gradients</p>
+      </div>
+    </div>
+
+    <div class="md:col-span-2">
+      <div class="flex flex-row space-x-8">
+        <div class="flex items-center">
+          <.field
+            type="checkbox"
+            field={@form[:is_default]}
+            label="Set as default template"
+            label_class="ml-2 text-gray-700 dark:text-gray-300"
+            class="flex items-center"
+          />
+        </div>
+
+        <div class="flex items-center">
+          <.field
+            type="checkbox"
+            field={@form[:is_dark_theme]}
+            label="Set as dark themed template"
+            label_class="ml-2 text-gray-700 dark:text-gray-300"
+            class="flex items-center"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
       <.button
-        type="submit"
-        phx-disable-with="Saving..."
-        label="Save"
-      />
+        type="button"
+        phx-click="cancel"
+        phx-target={@myself}
+        variant="outline"
+        color="gray"
+        class="px-4 py-2 text-sm"
+      >
+        Cancel
+      </.button>
+
+      <div class="flex space-x-2">
+        <.button
+          :if={!is_nil(@template.id)}
+          type="button"
+          phx-click="delete"
+          phx-target={@myself}
+          data-confirm="Are you sure you want to delete this template?"
+          variant="outline"
+          class="px-4 py-2 text-sm"
+        >
+          <.icon name="hero-trash" class="w-4 h-4 mr-1" /> Delete
+        </.button>
+
+        <.button
+          type="submit"
+          phx-disable-with="Saving..."
+          color="primary"
+          class="px-4 py-2 text-sm shadow-sm hover:shadow transition-all duration-300"
+        >
+          <.icon name="hero-check" class="w-4 h-4 mr-1" /> Save Template
+        </.button>
+      </div>
     </div>
   </.form>
+
+  <div class="mt-6 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="p-4">
+      <h3 class="font-medium text-gray-700 dark:text-gray-300 mb-2">Gradient Preview</h3>
+      <div class="flex flex-col space-y-2">
+        <div class="mt-4">
+          <div
+            class="h-12 w-full rounded-md"
+            style={"background-image: linear-gradient(to right, #{@form[:primary_color].value || "var(--color-primary-600)"}, #{@form[:accent_color].value || "var(--color-secondary-600)"})"}
+          >
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex items-center space-x-2">
+            <button
+              class="px-2 py-2 rounded-md text-white shadow-sm transition-all duration-300 hover:shadow text-sm"
+              style={"background-color: #{@form[:primary_color].value || "var(--color-primary-600)"}"}
+            >
+              Primary Color
+            </button>
+
+            <button
+              class="px-2 py-2 rounded-md text-white shadow-sm transition-all duration-300 hover:shadow text-sm"
+              style={"background-color: #{@form[:accent_color].value || "var(--color-secondary-600)"}"}
+            >
+              Accent Color
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

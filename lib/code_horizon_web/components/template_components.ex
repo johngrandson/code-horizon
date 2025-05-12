@@ -106,7 +106,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
     <div
       id={@id}
       class="group overflow-hidden rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800"
-      style={@template.is_active && "border: 2px solid #{@active_template.primary_color}"}
+      style={@template.is_active && "border: 2px solid #{@template.primary_color}"}
     >
       <div
         class="aspect-video relative cursor-pointer"
@@ -116,7 +116,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
         <%= if @template.is_active do %>
           <div
             class="absolute top-0 left-0 right-0 h-1.5 shadow-sm z-10"
-            style={"background-color: #{@active_template.primary_color}"}
+            style={"background-color: #{@template.primary_color}"}
           >
           </div>
         <% end %>
@@ -145,7 +145,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
 
         <%= if @template.is_default do %>
           <div class="absolute top-4 right-4">
-            <.template_badge text="Default" primary_color={@active_template.primary_color} />
+            <.template_badge text="Default" primary_color={@template.primary_color} />
           </div>
         <% end %>
       </div>
@@ -153,7 +153,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
       <div class="p-5">
         <h3
           class="text-lg font-bold text-gray-900 dark:text-white transition-colors duration-300"
-          style={"group-hover:color: #{@active_template.primary_color}"}
+          style={"group-hover:color: #{@template.primary_color}"}
         >
           {@template.name}
         </h3>
@@ -163,14 +163,13 @@ defmodule CodeHorizonWeb.TemplateComponents do
           <div
             class="flex items-center px-2 py-1 rounded-md shadow-sm border"
             style={[
-              "background-color: #{@active_template.primary_color}10",
-              "border-color: #{@active_template.primary_color}30"
+              "background-color: #{@template.primary_color}",
+              "border: 1px solid #{@template.primary_color}"
             ]}
           >
             <.icon
               name="hero-swatch"
-              class="w-3.5 h-3.5 mr-1.5"
-              style={"color: #{@active_template.primary_color}"}
+              class="w-3.5 h-3.5 mr-1.5 text-lg font-bold text-gray-900 dark:text-white transition-colors duration-300"
             />
             <div class="flex space-x-2 items-center">
               <div
@@ -224,7 +223,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
             <.themed_button
               phx-click="activate"
               phx-value-id={@template.id}
-              style={"background-color: #{@active_template.primary_color}"}
+              style={"background-color: #{@template.primary_color}"}
               size="sm"
               class="font-medium shadow transition-all duration-300 transform group-hover:scale-105"
             >
@@ -335,8 +334,17 @@ defmodule CodeHorizonWeb.TemplateComponents do
   end
 
   @doc """
-  A themed button that respects dynamic color variables.
-  Extends PetalComponents.Button with improved theme support.
+    A themed button that respects dynamic color variables.
+    Extends PetalComponents.Button with improved theme support.
+
+    ## Examples
+
+        <.themed_button
+          phx-click={JS.push("open_modal")}
+          style="background-color: #4f46e5"
+        >
+          Create Template
+        </.themed_button>
   """
   attr :class, :string, default: "", doc: "Additional classes"
   attr :variant, :string, default: "solid", values: ~w(solid outline), doc: "Button variant (solid or outline)"
@@ -345,7 +353,7 @@ defmodule CodeHorizonWeb.TemplateComponents do
   attr :link_type, :string, default: "button", values: ~w(button live_redirect live_patch href), doc: "Link type"
   attr :disabled, :boolean, default: false, doc: "Disable button"
   attr :size, :string, default: "md", values: ~w(xs sm md lg xl), doc: "Button size"
-  attr :rest, :global, doc: "Additional attributes"
+  attr :rest, :global, doc: "Additional attributes - includes Phoenix events like phx-click"
 
   slot :inner_block, required: true, doc: "Button content"
 

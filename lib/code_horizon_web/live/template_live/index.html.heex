@@ -23,7 +23,7 @@
     >
       <:action>
         <.themed_button
-          to={~p"/app/templates/new"}
+          phx-click={JS.push("open_modal")}
           style={"background-color: #{@active_template.primary_color}"}
           class="shadow transition-all duration-300 font-medium"
         >
