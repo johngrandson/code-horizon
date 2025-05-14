@@ -100,3 +100,5 @@ config :email_checker,
 #   secret: System.get_env("AWS_SECRET")
 
 config :code_horizon, :env, :dev
+
+config :phoenix_live_dashboard, :phoenix_live_dashboard, metrics: CodeHorizonWeb.Telemetry

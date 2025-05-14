@@ -123,10 +123,13 @@ defmodule CodeHorizonWeb.Router do
   end
 
   scope "/" do
+    # Add admin routes here
     use CodeHorizonWeb.AuthRoutes
     use CodeHorizonWeb.SubscriptionRoutes
     use CodeHorizonWeb.MailblusterRoutes
     use CodeHorizonWeb.AdminRoutes
+
+    # Add API routes here
     use CodeHorizonApi.Routes
 
     # DevRoutes must always be last

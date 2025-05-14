@@ -96,7 +96,7 @@
     </.p>
 
     <.table :if={length(@user.memberships) > 0} rows={@user.memberships}>
-      <:col :let={membership} label="Organisation">
+      <:col :let={membership} label="Organization">
         <.link patch={~p"/admin/orgs/#{membership.org}"} class="hover:underline">
           {membership.org.name}
         </.link>

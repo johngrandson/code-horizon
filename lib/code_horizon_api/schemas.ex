@@ -193,4 +193,15 @@ defmodule CodeHorizonApi.Schemas do
       example: %{message: "Example message!"}
     })
   end
+
+  defmodule OrganizationNames do
+    @moduledoc false
+    OpenApiSpex.schema(%{
+      title: "OrganizationNames",
+      description: "List of organization names for a user",
+      type: :array,
+      items: %Schema{description: "name", type: :string},
+      example: ["Mayfield Columbus", "Tracking Bronze"]
+    })
+  end
 end

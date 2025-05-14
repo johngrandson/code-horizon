@@ -55,4 +55,20 @@ defmodule CodeHorizonWeb.Helpers do
     <pre>#{code}</pre>
     """)
   end
+
+  def sanitize_for_websocket(string) when is_binary(string) do
+    string
+    |> :unicode.characters_to_binary(:utf8, :utf8)
+    |> validate_utf8()
+  end
+
+  defp validate_utf8(string) do
+    case :unicode.characters_to_binary(string, :utf8, :utf8) do
+      {:error, _, _} ->
+        String.replace(string, ~r/[^\x00-\x7F]/, "")
+
+      _ ->
+        string
+    end
+  end
 end

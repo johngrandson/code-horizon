@@ -20,14 +20,14 @@ import Config
 #   - github_url: (deletable) The URL to your Github account (used in the landing page footer)
 #   - discord_url: (deletable) The URL to your Discord invititation (used in the landing page footer)
 config :code_horizon,
-  app_name: "Petal",
-  business_name: "Petal Pty Ltd",
-  support_email: "support@example.com",
-  mailer_default_from_name: "Support",
-  mailer_default_from_email: "support@example.com",
+  app_name: "Code Horizon",
+  business_name: "Code Horizon LTDA",
+  support_email: "suporte@codehorizon.com",
+  mailer_default_from_name: "Suporte",
+  mailer_default_from_email: "suporte@codehorizon.com",
   logo_url_for_emails:
     "https://res.cloudinary.com/wickedsites/image/upload/v1643336799/petal/petal_logo_light_w5jvlg.png",
-  seo_description: "SaaS boilerplate template powered by Elixir's Phoenix and TailwindCSS",
+  seo_description: "Code Horizon | Fábrica de Software | Software House",
   twitter_url: "https://twitter.com/PetalFramework",
   github_url: "https://github.com/petalframework",
   discord_url: "https://discord.gg/exbwVbjAct"
@@ -38,6 +38,9 @@ config :code_horizon,
 config :code_horizon,
   impersonation_enabled?: true,
   gdpr_mode: true
+
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+config :gettext, :default_locale, "pt-BR"
 
 config :code_horizon,
   ecto_repos: [CodeHorizon.Repo],
@@ -109,11 +112,11 @@ config :code_horizon, Oban,
 # Specify which languages you support
 # To create .po files for a language run `mix gettext.merge priv/gettext --locale fr`
 # (fr is France, change to whatever language you want - make sure it's included in the locales config below)
-config :code_horizon, CodeHorizonWeb.Gettext, allowed_locales: ~w(en fr)
+config :code_horizon, CodeHorizonWeb.Gettext, allowed_locales: ~w(en pt-BR)
 
 config :code_horizon, :language_options, [
-  %{locale: "en", flag: "🇬🇧", label: "English"},
-  %{locale: "fr", flag: "🇫🇷", label: "French"}
+  %{locale: "pt-BR", flag: "🇧🇷", label: "Português"},
+  %{locale: "en", flag: "🇺🇸", label: "English"}
 ]
 
 # Social login providers

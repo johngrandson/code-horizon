@@ -5,6 +5,7 @@ defmodule CodeHorizonApi.Routes do
       pipeline :api do
         plug :accepts, ["json"]
         plug OpenApiSpex.Plug.PutApiSpec, module: CodeHorizonApi.ApiSpec
+        plug CodeHorizonWeb.Plugs.SetTenant
       end
 
       pipeline :api_authenticated do
@@ -32,6 +33,8 @@ defmodule CodeHorizonApi.Routes do
         patch "/user/:id/update", ProfileController, :update_profile
         post "/user/:id/request-new-email", ProfileController, :request_new_email
         post "/user/:id/change-password", ProfileController, :change_password
+
+        get "/user/:id/orgs", MembershipController, :list
       end
     end
   end

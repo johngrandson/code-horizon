@@ -43,6 +43,14 @@ defmodule CodeHorizon.Orgs do
     Repo.get!(Org, id)
   end
 
+  def get_org_by_slug(slug) do
+    Repo.get_by(Org, slug: slug)
+  end
+
+  def get_org_by_slug!(slug) do
+    Repo.get_by!(Org, slug: slug)
+  end
+
   def preload_org_memberships(org) do
     Repo.preload(org, memberships: :user)
   end
@@ -111,6 +119,10 @@ defmodule CodeHorizon.Orgs do
 
   def list_members_by_org(org) do
     Repo.preload(org, :users).users
+  end
+
+  def is_member?(org, user) do
+    Repo.exists?(from(m in Membership, where: m.org_id == ^org.id and m.user_id == ^user.id))
   end
 
   def create_membership(org, user, role) do

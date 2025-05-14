@@ -41,7 +41,7 @@ Alternatively, if you navigate to the [Swagger UI](http://localhost:4000/dev/swa
 
 ## Extending the API
 
-Say you want to add an API call that returns a list of Organisations for a user. The following is an example of how this might be achieved
+Say you want to add an API call that returns a list of Organizations for a user. The following is an example of how this might be achieved
 
 ### Create the API Code
 
@@ -183,7 +183,7 @@ Finished in 0.2 seconds (0.00s async, 0.2s sync)
 1 test, 0 failures
 ```
 
-However, now is a good time to think about access control (authorisation). Let's assume users should only retrieve Organisations for themselves (but admin users can retrieve Organisations for any user). Copying the code that's in `profile_controller.ex`, you can add the `match_current_user` plug to `membership_controller.ex`:
+However, now is a good time to think about access control (authorisation). Let's assume users should only retrieve Organizations for themselves (but admin users can retrieve Organizations for any user). Copying the code that's in `profile_controller.ex`, you can add the `match_current_user` plug to `membership_controller.ex`:
 
 ```elixir
 defmodule CodeHorizonApi.MembershipController do
@@ -340,7 +340,7 @@ operation :list,
     id: [in: :path, name: "id", type: :integer]
   ],
   responses: [
-    ok: {"Organisations", "application/json", Schemas.OrganisationNames},
+    ok: {"Organizations", "application/json", Schemas.OrganizationNames},
     unauthorized: %Reference{"$ref": "#/components/responses/unauthorised"},
     forbidden: %Reference{"$ref": "#/components/responses/forbidden"}
   ]
@@ -359,16 +359,16 @@ There's a lot going on here! Let's step through the various parts of the `operat
 
 An `operation` defines the list of expected inputs and outputs. Which is great for generating code/documentation (e.g. for the Swagger UI). In particular, there are three possible outcomes in the above definition:
 
-* `:ok` - when the call is successful, then the output will be a list of Organisation names. This is defined by the `OrganisationNames` schema. There's more on the schema (below)
+* `:ok` - when the call is successful, then the output will be a list of Organization names. This is defined by the `OrganizationNames` schema. There's more on the schema (below)
 * `:unauthorized` - a common response that's defined in the `api_spec.ex` file
 * `:forbidden` - also defined in `api_spec.ex`
 
 To round out the Open API definition, we need to add the following Schema to `/lib/code_horizon_api/schemas.ex`:
 
 ```elixir
-defmodule OrganisationNames do
+defmodule OrganizationNames do
   OpenApiSpex.schema(%{
-    title: "OrganisationNames",
+    title: "OrganizationNames",
     description: "List of organisation names for a user",
     type: :array,
     items: %Schema{description: "name", type: :string},

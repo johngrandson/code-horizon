@@ -134,6 +134,9 @@ defmodule CodeHorizon.MixProject do
       # Security
       {:content_security_policy, "~> 1.0"},
 
+      # Multi tenancy
+      {:triplex, "~> 1.3.0"},
+
       # Code quality
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
@@ -145,10 +148,7 @@ defmodule CodeHorizon.MixProject do
       {:stripity_stripe, "~> 3.1"},
 
       # AI
-      {:langchain, github: "brainlid/langchain"},
-
-      # Temporary (to rename your project)
-      {:rename_project, "~> 0.1.0", only: :dev, runtime: false}
+      {:langchain, github: "brainlid/langchain"}
     ]
   end
 

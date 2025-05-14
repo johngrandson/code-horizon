@@ -31,7 +31,7 @@ defmodule CodeHorizonWeb.OrgDashboardLive do
 
         <div class="px-4 py-8 sm:px-0">
           <div class="flex items-center justify-center border-4 border-gray-300 border-dashed rounded-lg dark:border-gray-800 h-96">
-            <div class="text-xl">{gettext("Organisation dashboard")}</div>
+            <div class="text-xl">{gettext("Organization dashboard")}</div>
           </div>
         </div>
       </.container>

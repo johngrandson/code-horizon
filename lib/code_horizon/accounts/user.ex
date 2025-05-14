@@ -24,6 +24,7 @@ defmodule CodeHorizon.Accounts.User do
     field :is_suspended, :boolean, default: false
     field :is_deleted, :boolean, default: false
     field :is_onboarded, :boolean, default: false
+    field :is_enterprise, :boolean, default: false
 
     # If you want to remove the impersonation feature, you can remove this field.
     # Search for and delete the files `user_impersonation_controller.ex` and
@@ -37,6 +38,7 @@ defmodule CodeHorizon.Accounts.User do
     has_one :customer, Customer
 
     field :is_online, :boolean, virtual: true, default: false
+    field :is_admin, :boolean, virtual: true
 
     timestamps()
   end
